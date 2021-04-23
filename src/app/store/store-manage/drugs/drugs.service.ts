@@ -20,7 +20,7 @@ export class DrugsService {
   drugs=new BehaviorSubject<IStkDrugResponseModel[]>([]);
   classList:PharmaClass[]=[];
   constructor(private http:HttpClient,
-              private toastService:ToastService,
+              public toastService:ToastService,
               public loaderService:LoaderService,
               public pagingService:PaginatorService,
               private authService:AuthService,
@@ -75,12 +75,27 @@ export class DrugsService {
   }
   uploadDrugsFile(file:File,classId:string){
   let data=new FormData();
-  data.append('colNameOrder','1');
-  data.append('colPriceOrder','2');
+  data.append('colNameOrder','0');
+  data.append('colPriceOrder','1');
   data.append('colDiscountOrder','2');
   data.append('forClassId',classId);
   data.append('Sheet',file);
-  this.http.put(`${environment.apiUrl}/stk/prods`,data)
+  return this.http.put(`${environment.apiUrl}/stk/prods`,data).pipe(tap(()=>{
+    this.getPageOfDrugs({});
+    this.toastService.showSuccess('تم رفع المنتجات بنجاح');
+  }),catchError((err:IErrorModel)=>{
+    console.log(err)
+   if(err.hasValidationError){
+     let message=err.error['sheet']
+     ?err.error['sheet'][0]
+     :err.error['g'][0]
+    this.toastService.showError(message)
+   }
+   else{
+    this.toastService.showError(err.message)
+   }
+    return of([]);
+  }));
   }
   private getClassName(classId:string,classList:PharmaClass[]){
     return classList.find(e=>e.id==classId.toLowerCase())?.name ||'Not Unkown';

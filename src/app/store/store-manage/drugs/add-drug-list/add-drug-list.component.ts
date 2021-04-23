@@ -13,6 +13,10 @@ export class AddDrugListComponent  {
   @ViewChild('uploadFileTemp') uploadFileTemp:TemplateRef<HTMLElement>;
   private _modal:NgbModalRef;
   classes:PharmaClass[];
+  selectedFile:File;
+  selectedClassId:string;
+  private _btnPlaceHolder="رفع ملف ادوية";
+  btnPlaceholder=this._btnPlaceHolder;
   constructor(private _service:DrugsService) { 
      this.classes= this._service.classList;
   }
@@ -23,15 +27,32 @@ export class AddDrugListComponent  {
     okBtntext:'ارسال',
   });
   this._modal.result.then(()=>{
-    alert('ok')
-      //this._service.uploadDrugsFile()
+    if(this.selectedFile && this.selectedClassId){
+      this._service.uploadDrugsFile(this.selectedFile,this.selectedClassId)
+      .subscribe(()=>{
+       
+      });     
+    }
+    else{
+      let message="";
+      if(!this.selectedClassId)message="من فضلك اختر نوع التصنيف";
+      if(!this.selectedFile)message="من فضلك قم بتحميل ملف البيانات";
+      this._service.toastService.showError(message);
+    }
    })
-   .catch(()=>{});
+   .catch(()=>{})
+   .finally(()=>{
+        this.selectedClassId=undefined;
+        this.selectedFile=undefined;
+        this.btnPlaceholder=this._btnPlaceHolder;
+   });
   }
    onExcelFileChange(file:File){
-     console.log(file)
+    let fileName=file?.name || '';
+    this.selectedFile=file;
+    this.btnPlaceholder=this._btnPlaceHolder+` (${fileName}) `;
    }
    onSelectClass(id:string){
-     console.log(id)
+     this.selectedClassId=id;
    }
 }

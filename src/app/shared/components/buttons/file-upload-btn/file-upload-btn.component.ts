@@ -25,6 +25,9 @@ export class FileUploadBtnComponent {
        this.onChange.emit(file);
      }
     }
+    else{
+      this.onChange.emit(undefined);
+    }
   }
  private validateExtension(file:File){
   //let ext=BasicUtility.getDateStringFromDateObjectStr(name);

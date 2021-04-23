@@ -18,7 +18,7 @@ export class Constants{
       pharmacy_DrugsRequests:'ph_drug_requests',
       storeManage:'store_manage'
    }
-   static drugsTemplateFilePath="/assets/content/drugsTemplate.csv";
+   static drugsTemplateFilePath="/assets/content/drugsTemplate.xlsx";
 }
  class Lists{
    public static  drugsPriceTypes=[
