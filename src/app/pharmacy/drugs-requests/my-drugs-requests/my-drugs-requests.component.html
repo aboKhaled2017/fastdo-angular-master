@@ -1,0 +1,113 @@
+<ng-template #stock_count_display let-stkCount="stkCount">
+   <span class="badge badge-primary">{{stkCount}}</span>
+   <span class="ml-1">مخازن</span>
+</ng-template>
+<ng-template #drugs_count_display let-drugsCount="drugsCount">
+    <span class="badge badge-primary">{{drugsCount}}</span>
+    <span class="ml-1">راكد</span>
+</ng-template>
+<ng-template #g_status_display let-status="status">
+    <span class="badge badge-info py-2">{{status}}</span>
+</ng-template>
+
+<ng-template #controls let-id="packageId">
+    <span class="d-flex justify-content-center">
+        <button class="btn btn-primary btn-sm shadow p-1 rounded-circle"
+                (click)="onEdit(id)">
+            <i class="fa fa-edit text-white fa-lg"></i>
+        </button>
+        <span class="mx-2"></span>
+        <button class="btn btn-danger btn-sm shadow p-1 rounded-circle"
+                (click)="onDelete(id)">
+            <i class="fa fa-remove text-white fa-lg"></i>
+        </button>
+    </span>
+</ng-template>
+
+<ng-template #inner_collapsed let-item="item">
+    <app-main-table [cols]="innerOfInnerCols"
+                        [tclass]="{thead:'bg-success'}"
+                        [data]="item.drugs">
+    </app-main-table>
+</ng-template>
+
+<ng-template #drug_status_display let-s="statusObj">
+    <span [class]="'badge'+' ml-2 '+s.cls">{{s.text}}</span>
+    <p *ngIf="s.message">{{s.message}}</p>
+</ng-template>
+
+<ng-template #drug_seen_display let-seen="seen">
+    <span *ngIf="seen" class="badge badge-success">تم روؤية طلبك</span>
+    <span *ngIf="!seen" class="badge badge-warning">لم يتم روؤية طلبك</span>
+</ng-template>
+
+<ng-template #drug_price_display let-price="price">
+    <span>{{price}}</span>
+    <span class="ml-1">جنية</span>
+</ng-template>
+
+
+<ng-template #drug_count_display let-drugs='drugs'>
+    <span class="badge badge-primary">{{drugs.length}}</span>
+    <span class="ml-1">راكد</span>
+</ng-template>
+
+
+<ng-template #collapsed let-item="item">
+    <div>
+        <app-main-table [cols]="innerCols"
+                        [tclass]="{thead:'bg-info'}"
+                        [data]="item.fromStocks"
+                        [collapsed]="inner_collapsed">
+        </app-main-table>
+    </div>
+</ng-template>
+
+<ng-template #datatable>
+    <app-main-table [cols]="cols | async"
+                    [data]="datalist"
+                    [controls]="controls"
+                    [collapsed]="collapsed">
+    </app-main-table>
+</ng-template>
+
+<section id="main-section">
+    <app-loading-status [loading]="loading"></app-loading-status>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-3">
+                <button class="btn btn-primary">
+                    <i class="fa fa-plus-circle"></i>
+                    <span class="ml-1">اضافة طلبية جديدة</span>
+                </button>
+            </div>
+            <div class="col-9">
+                <app-paging-section (refresh)="onRefresh()"
+                                    [pg]="pg"
+                                    (selectPageSize)="onPageSizeSelected($event)"
+                                    (selectPage)="onPageSelected($event)">
+                    <div>
+                        <app-search-input [hasIcon]="false" 
+                                          (textChanged)="onSearchDrugChange($event)"
+                                          #searchInp label="ابحث بأسم الطلبية">
+                        </app-search-input>
+                    </div>
+                </app-paging-section>
+            </div>
+           
+        </div>
+        <div class="row mb-3 mt-3">
+            <div class="col-12">
+                <div class="container-fluid">
+                    <div class="row">  
+                        <div class="col-12">
+                            <ng-container *ngTemplateOutlet="datatable"></ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+</section>
+   

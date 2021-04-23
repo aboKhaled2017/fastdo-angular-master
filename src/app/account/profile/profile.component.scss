@@ -1,0 +1,21 @@
+@import './../../scss/variables';
+ul.nav-pills{
+    li{
+        .nav-link{
+            border-radius: 0;
+            &.active{
+                background: transparent;
+                border-left: 4px solid $primary;
+                .text{
+                color:#222;
+                opacity: 1;
+                }
+            }
+            .text{
+                opacity: .6;
+                color:#777
+            }
+        }
+    }
+    border-left: 4px solid #dee2e6;
+}

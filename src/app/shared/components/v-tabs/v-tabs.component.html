@@ -1,0 +1,16 @@
+<div  class="d-flex v-tabs">
+    <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-pills w-25" orientation="vertical">
+        <ng-container *ngFor="let tab of tabs; let i=index">
+            <li [ngbNavItem]="'tab'+i" [disabled]="tab.disabled">
+                <a ngbNavLink class="text-center">
+                    <i *ngIf="hasIcon" class="fa fa-user fa-lg d-block text-primary"></i>
+                    <span [ngClass]="{'mt-2':hasIcon}" class="mt-2 text">{{tab.title}}</span>
+                </a>
+                <ng-template ngbNavContent>
+                   <ng-container [ngTemplateOutlet]="tab.template"></ng-container>
+                </ng-template>
+              </li>
+        </ng-container>
+    </ul>
+    <div [ngbNavOutlet]="nav" class="w-75 px-md-5"></div>
+  </div>

@@ -1,0 +1,122 @@
+<ng-template #pharmacylinks>
+  <li class="nav-item" routerLinkActive="active">
+    <a class="nav-link" routerLink="/pharmacy/mydrugs">رواكدى</a>
+  </li>
+  <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+    <a class="nav-link" routerLink="/pharmacy/serachdrugs">البحث عن الرواكد</a>
+  </li>
+  <li class="nav-item dropdown" ngbDropdown routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+    <a class="nav-link dropdown-toggle" 
+      id="navbarDropdown" role="button" data-toggle="dropdown" 
+      aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
+      صفحات اخرى
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown" ngbDropdownMenu >
+      <a ngbDropdownItem class="dropdown-item" routerLink="/pharmacy/mystores">المخازن خاصتى</a>
+      <a ngbDropdownItem class="dropdown-item" routerLink="/pharmacy/request-drugs-from-stores">طلب ادوية</a>
+    </div>
+  </li>
+</ng-template>
+<ng-template #storelinks>
+  <li class="nav-item" routerLinkActive="active"
+    [routerLinkActiveOptions]="{exact: true}">
+  <a class="nav-link" routerLink="/store/manage-store">مخزنى</a>
+  </li>
+  <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+  <a class="nav-link" routerLink="/store/store-requested-drugs">طلبات الرواكد</a>
+  </li>
+</ng-template>
+<ng-template #mainlinks>
+  <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+    <a class="nav-link" routerLink="/">الرئيسية</a>
+  </li>
+  <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+    <a class="nav-link" routerLink="/aboutus">ماذا عنا</a>
+  </li>
+  <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+    <a class="nav-link" routerLink="/contactus">تواصل معنا</a>
+  </li>
+</ng-template>
+<ng-template #leftlinks>
+  <ng-container *ngIf="!isLogged; else logged"> 
+    <li class="nav-item">
+      <button routerLink="/auth/join/as-pharmacy" 
+        class="btn btn-outline-light  my-2 my-sm-0 mx-1"
+        routerLinkActive="active">
+        <i class="fa fa-user ml-1"></i>
+        انضم الينا
+      </button>
+      <button routerLink="/auth/signin" 
+              class="btn btn-outline-light  my-2 my-sm-0 mx-1"
+              routerLinkActive="active">
+              <i  class="fa fa-sign-in ml-1" aria-hidden="true"></i>
+              دخول
+      </button>
+    </li>
+  </ng-container>
+  <ng-template #logged>
+    <li class="nav-item dropdown logged-menue" ngbDropdown>
+      <a class="nav-link dropdown-toggle" 
+        id="navbarDropdown" role="button" data-toggle="dropdown" 
+        aria-haspopup="true" aria-expanded="false" ngbDropdownToggle>
+        <i class="fa fa-user-o"></i>
+      </a>
+      <div class="dropdown-menu shadow" aria-labelledby="navbarDropdown" ngbDropdownMenu >
+        <a ngbDropdownItem class="dropdown-item" routerLink="/my/account">
+          <i class="fa fa-user-circle"></i>
+          <span class="ml-1">حسابى</span>
+        </a>
+        <a ngbDropdownItem class="dropdown-item" routerLink="/my/profile">
+          <i class="fa fa-address-book"></i>
+          <span class="ml-1">عضويتى</span>
+        </a>
+        <a ngbDropdownItem class="dropdown-item last-item"
+            (click)="logoutUser()">
+            <i  class="fa fa-sign-in ml-1"></i>
+            خروج
+       </a>
+      </div>
+    </li>
+  </ng-template>
+</ng-template>
+<ng-template #logo>
+  <a class="app-logo sm d-block d-lg-none mb-2" routerLink="/">
+      <img src="../../../assets/logo.png" alt="فاست دو">
+  </a>
+  <div class="app-logo-wrapper d-none d-lg-block">
+  <a class="app-logo" routerLink="/">
+    <img src="../../../assets/logo.png" alt="فاست دو">
+  </a>
+</div>
+</ng-template>
+
+<nav class="navbar navbar-expand-lg navbar-dark" id="navbar">
+    <ng-container *ngTemplateOutlet="logo"></ng-container>
+    
+    <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+  
+    <div class="collapse navbar-collapse" [ngbCollapse]="isMenuCollapsed">
+      <ul class="navbar-nav mr-auto d-inline-flex">
+        
+        <ng-container *ngTemplateOutlet="mainlinks"></ng-container>
+        
+        <ng-container *ngIf="role=='pharmacy'"> 
+          <ng-container *ngTemplateOutlet="pharmacylinks"></ng-container>
+        </ng-container>
+        
+        <ng-container *ngIf="role=='store'">
+          <ng-container *ngTemplateOutlet="storelinks"></ng-container>
+        </ng-container>
+
+      </ul>
+      <div class="d-flex my-2 my-lg-0 buttons">
+        <ul class="navbar-nav d-inline-flex">
+          <ng-container *ngTemplateOutlet="leftlinks"></ng-container>     
+        </ul>
+      </div>
+    </div>
+</nav>
+
+ 

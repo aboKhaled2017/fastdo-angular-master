@@ -1,0 +1,18 @@
+
+ <ng-template #disabled>
+    <div class="chiller_cb">
+        <input id="myCheckbox3" type="checkbox" disabled>
+        <label for="myCheckbox3">Checkbox disabled</label>
+        <span></span>
+      </div>
+ </ng-template>
+<div class="chiller_cb">
+    <input [id]="id" 
+           type="checkbox" 
+           [checked]="checked">
+    <label *ngIf="label" [for]="id">
+        <div class="label-text">{{label}}</div>
+    </label>
+    <span></span>
+</div>
+ 

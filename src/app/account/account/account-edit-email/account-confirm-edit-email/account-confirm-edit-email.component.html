@@ -1,0 +1,64 @@
+
+<div>
+    <ng-content></ng-content>
+    
+    <div class="alert-danger text-center mb-1" *ngIf="errors.g">
+        <span>{{errors.g}}</span>
+    </div>
+    <div class="my-2">
+        <span class="badge badge-info">لم يصلنى الكود الى بريدى الالكترونى</span>
+        <button class="btn btn-link" 
+                [disabled]="sendingMailAgain"
+                (click)="sendAgain()">
+            
+            <span *ngIf="sendingMailAgain">
+                <span  class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                <span>جارى التحميل...</span>
+            </span>
+            
+            <span *ngIf="!sendingMailAgain">
+                ارسال مرة اخرى
+            </span>
+        </button>
+    </div>
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+        <div class="form-group">
+            <input type="email" class="form-control"
+                   formControlName="newEmail"
+                   [appTrackArabicText]="f.newEmail"
+                   [ngClass]="{'border-danger':f.newEmail.touched && f.newEmail.invalid}"
+                   placeholder="البريد الالكترونى الجديدة">
+            <div class="text-danger" *ngIf="f.newEmail.touched && f.newEmail.invalid">
+                <span *ngIf="f.newEmail.errors.required">
+                    البريد الالكترونى مطلوب
+                </span>
+                <span *ngIf="f.newEmail.errors.match">
+                    البريد الالكترونى لا يتطابق مع البريد الالكترونى الجديد المراد تغيره
+                </span>
+                <span *ngIf="f.newEmail.errors.g">
+                    {{errors.newEmail[0]}}
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control"
+                   formControlName="code"
+                   [appTrackArabicText]="f.code"
+                   [ngClass]="{'border-danger':f.code.touched && f.code.invalid}"
+                   placeholder="الكود المرسل">
+            <div class="text-danger" *ngIf="f.code.touched && f.code.invalid">
+                <span *ngIf="f.code.errors.required">
+                    الكود المرسل مطلوب
+                </span>
+                <span *ngIf="f.code.errors.g">
+                    {{errors.code}}
+                </span>
+            </div>
+        </div>
+        <app-loading-button [loading]="loading" 
+                    type="submit"
+                    extra="mt-1"
+                    [valid]="form.valid">
+        </app-loading-button>
+    </form>
+</div>

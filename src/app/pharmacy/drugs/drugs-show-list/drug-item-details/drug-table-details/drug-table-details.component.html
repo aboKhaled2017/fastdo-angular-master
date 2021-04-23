@@ -1,0 +1,38 @@
+<table class="table table-borderless">
+    <tbody>
+        <tr>
+            <td>
+                {{drug.type}} / {{drug.name}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                {{shortDesc}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="text-info">تاريخ الصلاحية</span>
+                /  {{drug.valideDate | date:'M-yyyy'}}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="text-info">نوع السعر</span>
+                / {{priceType}} 
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <span class="text-info">نوع الاستهلاك</span>
+                / {{consumeType}} 
+            </td>
+        </tr>
+        <tr>
+            <td>
+               <span class="badge badge-info">وصف الراكد</span>
+               <div>{{drug.desc}}</div>
+            </td>
+        </tr>
+    </tbody>
+</table>

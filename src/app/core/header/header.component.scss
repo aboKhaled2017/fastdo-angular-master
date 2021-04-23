@@ -1,0 +1,82 @@
+@import './../../scss/variables';
+
+#navbar{
+    background: $primary;
+    padding: 0.3rem 1rem !important;
+    .dropdown{
+      cursor: pointer;
+      &.active{
+        a.nav-link{
+          opacity: 1;
+        }
+      }
+      a.nav-link{
+        opacity: .7;
+      }
+    }
+    .logged-menue{
+      .dropdown-menu{
+        left: 0  !important;
+        right: inherit;
+        min-width: inherit;
+        padding-top: 1px;
+        padding-bottom: 0;
+        .dropdown-item{
+          padding: 2px 5px;
+        }
+      }
+    }
+    a.nav-link{
+      color:#fff;
+      &:hover{
+        background-color: rgb(0 0 0 / 6%);
+      }
+    }
+    .navbar-nav{
+      .nav-item:not(.dropdown){
+        opacity: .7;
+        &.active{
+          opacity: 1;
+          //background: #388be430;
+          border-radius: 5px;
+        }
+        &+.nav-item{
+          margin-right: inherit;
+        }
+      }
+    }
+    .app-logo{
+      &-wrapper{
+        width: 150px;
+        position: relative;
+      }
+    cursor: pointer;
+    max-width: 100%;
+    position: absolute;
+    top: -21px;
+    right: -19px;
+    border-bottom-right-radius: 24px;
+    border-bottom-left-radius: 87px;
+    background: #3f51b5;
+    &.sm{
+      border-bottom-right-radius:0;
+      border-bottom-left-radius:0;
+      right: 0;
+      background: transparent;
+      position: static;
+      img{
+        width:100px;
+      }
+    }
+      img{
+        width:80%
+      }
+    }
+    
+    .navbar-toggler:focus{
+      outline: 1px auto #007bff;
+    }
+}
+
+
+

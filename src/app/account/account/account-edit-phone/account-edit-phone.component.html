@@ -1,0 +1,31 @@
+<div class="edit-phone">
+    <h6 class="h6 text-secondary mb-4">تغيير رقم الهاتف الخاص بالحساب</h6>
+      <div id="verify-phone">
+          <div class="form-group">
+              <input [formControl]="phoneControl" 
+                  type="text" 
+                  placeholder="رقم الهاتف"
+                  [ngClass]="{'border-danger':phoneControl.touched && phoneControl.invalid}"
+                  class="form-control">
+              <div class="text-danger" *ngIf="phoneControl.touched && phoneControl.invalid">
+                  <span *ngIf="phoneControl.errors.required">
+                      رقم الهاتف مطلوب
+                  </span>
+                  <span *ngIf="phoneControl.errors.pattern">
+                    رقم الهاتف غير صحيح
+                  </span>
+                  <span *ngIf="phoneControl.errors.g">
+                      {{phoneErrorMessage[0]}}
+                  </span>                                     
+              </div>                  
+          </div>
+          <div class="form-group">
+              <app-loading-button [loading]="isLoading" 
+                      type="button"
+                      (clicked)="submit()"
+                      extra="mt-1"
+                      [valid]="phoneControl.valid">
+              </app-loading-button>
+          </div>
+      </div>
+</div>

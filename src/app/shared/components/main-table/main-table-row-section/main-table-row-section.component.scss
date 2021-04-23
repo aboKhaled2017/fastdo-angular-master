@@ -1,0 +1,19 @@
+@import '../../../../scss/variables';
+tr{
+    th{
+       width:10px;
+     
+       i{
+           color:#777;
+           cursor: pointer;
+           transition:color .5s ease-in-out;
+           &:hover{
+               color:$primary;
+           }
+       }
+    }
+    td,th{
+        border:none !important;
+        text-align: center;
+    }
+}

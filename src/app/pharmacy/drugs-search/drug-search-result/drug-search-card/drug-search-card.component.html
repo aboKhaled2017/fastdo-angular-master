@@ -1,0 +1,94 @@
+<ng-template #controls>
+    <button *ngIf="!card.isMadeRequest"
+             (click)="makeRequest('purchase')" 
+             class="btn btn-primary btn-sm shadow text-nowrap">
+        <span>ارسال طلب</span>
+        <i class="ml-2 fa fa-send"></i>
+    </button>
+    <button *ngIf="card.isMadeRequest"
+            (click)="makeRequest('cancel')"  
+            class="btn cancel-btn btn-sm shadow text-nowrap">
+        <span>الغاء الطلب</span>
+        <i class="ml-2 fa fa-close"></i>
+    </button>
+</ng-template>
+
+<ng-template #details>
+    <div class="position-absolute card-details" *ngIf="isDetailsShow">
+        <button type="button"
+                (click)="isDetailsShow=false"
+                title="اخفاء التفاصيل" 
+                class="btn btn-danger btn-sm shadow  rounded-circle">
+            <i class="fa fa-close text-center"></i>
+        </button>
+       <div class="d-flex flex-column mt-1">
+           <div *ngFor="let row of getItemDetails()"
+                class="d-flex my-1 bg-dark text-white p-2 rounded">
+               <span class="">{{row.t1}}</span>
+               <span class="ml-1">{{row.t2}}</span>
+           </div>
+       </div>
+    </div>
+</ng-template>
+
+<div class="card mt-2 shadow mx-md-5 position-relative">
+    <div class="card-body">
+        <app-loading-status [loading]="loading"></app-loading-status>
+        <div class="d-flex">
+            <div class="d-flex flex-column flex-grow-1">
+                <strong class="text-primary">
+                  <span>{{card.name}}</span>
+                  <span>/</span>
+                  <span>{{card.type}}</span>
+                </strong>
+                <div class="mt-1 text-secondary">
+                    <span>{{card.quantity}}</span> <span> {{card.unitType}} </span> بخصم <span>{{card.discount}}</span>%
+                </div>
+                <div class="mt-1">
+                    <div class="d-flex">
+                        <span class="badge badge-info py-2 px-3">تاريخ الصلاحية</span>
+                        <span class="chip ml-3 text-dark">{{card.valideDate}}</span>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="d-flex align-items-center">
+                        <span class="text-primary fa-lg">
+                            <span>صيدلية/ </span>
+                            <span>{{card.pharmName}}</span>
+                        </span>
+                        <span class="ml-3">
+                          <span class="text-danger mx-2"> | </span>
+                          <span>{{card.pharmLocation}}</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="mt-2">
+                    <span *ngIf="!card.requestsCount" class="badge badge-warning">
+                        لم يتم طلب الراكد من قبل
+                    </span>
+                    <span *ngIf="card.requestsCount>0">
+                        <span>عدد الطلبات على الراكد </span>
+                        <span class="badge badge-danger rounded ml-3">{{card.requestsCount}}</span>
+                    </span>
+                </div>
+                <div class="mt-1">
+                  <div class="text-center text-secondary">
+                      {{card.desc}}
+                  </div>
+                </div>
+                <div class="mt-1">
+                  <button type="button"
+                          (click)="isDetailsShow=true"
+                          title="تفاصيل الراكد" 
+                          class="btn btn-secondary btn-sm shadow details-btn rounded-circle">
+                      <i class="fa fa-info text-center"></i>
+                  </button>
+                </div>
+            </div>
+            <div>
+                <ng-container *ngTemplateOutlet="controls"></ng-container>                       
+            </div>
+        </div>
+    </div>
+    <ng-container *ngTemplateOutlet="details"></ng-container>                          
+</div>

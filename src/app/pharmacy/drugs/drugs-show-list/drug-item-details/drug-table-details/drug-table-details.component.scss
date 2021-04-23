@@ -1,0 +1,15 @@
+.table{
+    tbody{
+        tr{
+          display: block;
+            td{
+                background: #eee;
+                margin: 4px auto;
+                display: block;
+                padding: 7px 10px 7px 3px;
+                text-align: right;
+                border-radius: 7px;
+            }
+        }
+    }
+}

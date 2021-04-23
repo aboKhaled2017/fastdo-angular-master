@@ -1,0 +1,77 @@
+
+<ng-template #controls let-id="id">
+    <span class="d-flex justify-content-center">
+        <button class="btn btn-danger btn-sm shadow p-1 rounded-circle" 
+                (click)="onDelete(id)">
+            <i class="fa fa-remove text-white fa-lg"></i>
+        </button>
+    </span>
+</ng-template>
+
+<ng-template #discountDisplay let-discount="discount">
+    <div *ngFor="let d of discount" class="d-flex flex-column justify-content-between mb-1">
+       <div class="d-flex flex-row justify-content-center">
+            <span class="badge badge-info py-2 flex-grow-1">
+                <span>خصم </span>
+                <span>{{d[1]}} %</span>
+            </span>
+            <span class="badge badge-primary py-2 ml-1 flex-grow-1">
+                <span>تصنيف </span>
+                <span>{{d[0]}}</span>
+            </span>
+       </div>
+    </div>
+</ng-template>
+
+<section id="datalist">
+    <app-loading-status [loading]="loading"></app-loading-status>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-8">
+                <app-paging-section (refresh)="onRefresh()" [pg]="pg" (selectPageSize)="onPageSizeSelected($event)"
+                    (selectPage)="onPageSelected($event)">
+                    <div>
+                        <app-search-input [hasIcon]="false" (textChanged)="onSearchInpChange($event)" #searchInp
+                            label="ابحث بأسم المنتج">
+                        </app-search-input>
+                    </div>
+                </app-paging-section>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="d-flex flex-column justify-content-center w-100">
+                    <div class="flex-grow-1">
+                        <button class="btn btn-info w-100 btn-sm" (click)="onDownloadTemplate()">
+                            <i class="fa fa-download"></i>
+                            <span class="ml-1">تنزيل ملف اكسل لملئ بيانات المنتجات</span>
+                        </button>
+                    </div>
+                    <div class="flex-grow-1 d-flex justify-content-between align-items-center mt-1">
+                        <div class="flex-grow-1">                           
+                            <app-add-drug-list></app-add-drug-list>
+                        </div>
+                        <div class="flex-grow-1 ml-1">
+                            <button [disabled]="loading" (click)="onDeleteAll()" 
+                                    class="btn btn-danger w-100">
+                                <span class="fa fa-remove"></span>
+                                <span class="ml-1">حذف كل المنتجات</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="container-fluid mt-2">
+                    <div class="row">
+                      <div class="col-12">
+                        <app-main-table [cols]="cols" [data]="mappedDataList" [controls]="controls">
+                        </app-main-table>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

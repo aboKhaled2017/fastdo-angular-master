@@ -1,0 +1,33 @@
+svg{
+    opacity: 0;
+    font-size: 18px;
+    margin-right: 4px;
+    user-select: none;
+    margin-left: 4px;
+    fill: currentColor;
+    width: 1em;
+    height: 1em;
+    transform: rotate(180deg);
+    display: inline-block;
+    font-size: 1.5rem;
+    transition: all  5s ease-in-out;
+    flex-shrink: 0;
+    &.flipped{
+        transform: rotate(0);
+    }
+    &.active{
+        color: rgba(0, 0, 0, 0.54);
+        opacity: 1;
+    }
+}
+button{
+    background: #b22a00;
+    padding:2px 6px;
+    .text{
+        color:#ffff;
+    }
+    &:hover svg{
+        color:#fff;
+        opacity: .5;
+    }    
+}

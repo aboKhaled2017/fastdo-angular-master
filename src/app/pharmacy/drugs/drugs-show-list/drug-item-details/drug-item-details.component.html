@@ -1,0 +1,18 @@
+ <ng-template #detailstable>
+    <app-drug-table-details [drug]="drug"></app-drug-table-details>
+ </ng-template>
+ <ng-template #addtopackage>
+    <app-drug-to-package [drug]="drug"></app-drug-to-package>
+ </ng-template>
+ <ng-template #packagestatus>
+    <app-drug-package-status [drug]="drug"></app-drug-package-status>
+ </ng-template>
+ 
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <app-v-tabs [tabs]="tabs"></app-v-tabs>
+        </div>
+    </div>
+</div>

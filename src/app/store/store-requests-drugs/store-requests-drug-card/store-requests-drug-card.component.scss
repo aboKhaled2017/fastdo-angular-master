@@ -1,0 +1,19 @@
+.card-details {
+  width: 100%;
+  background: #eee;
+  height: 100%;
+  z-index: 2;
+  padding: 10px;
+  table {
+    thead {
+      th {
+        text-align: center;
+      }
+    }
+    tbody {
+      td {
+        padding: 6px 2px;
+      }
+    }
+  }
+}

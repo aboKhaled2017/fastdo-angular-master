@@ -1,0 +1,48 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md-7">
+            <div class="d-flex flex-column">
+                    <ngb-pagination class="d-flex justify-content-start" 
+                                    [collectionSize]="pg.totalCount"
+                                    [pageSize]="pg.pageSize"
+                                    (pageChange)="pageChanged($event)" 
+                                    [page]="1">
+                    </ngb-pagination>
+                    <div class="">
+                        <div class="d-flex">
+                            <span class="chip">
+                                <span>اجمالى العناصر</span>
+                                <span class="badge badge-info ml-1">{{pg.totalCount}}</span>
+                            </span>
+                            <span class="mx-1"></span>
+                            <span class="chip">
+                                <span>اجمالى الصفحات</span>
+                                <span class="badge badge-info ml-1">{{pg.totalPages}}</span>
+                            </span>
+                        </div>
+                    </div>
+
+            </div>
+        </div>
+        <div class="col-12 col-md-5 text-center mt-2 mt-md-0">
+           <div class="d-flex flex-column">
+                <div class="d-flex w-100 justify-content-between">
+                    <button class="btn btn-primary px-3 shadow py-0 text-nowrap  flex-grow-1"
+                            (click)="resfresh()">
+                        <span>تحديث</span>
+                        <i class="fa fa-refresh ml-1  btn-sm"></i>
+                    </button>
+                    <span class="mx-1"></span>
+                    <select class="btn bg-white border-primary shadow  text-nowrap  flex-grow-1" #s
+                            (change)="onPageSizeChange(s.value)">
+                        <option value="">حجم الصفحة</option>
+                        <option *ngFor="let c of [2,4,6,8,10]" [value]="c">{{c}}</option>
+                    </select>
+                </div>
+                <div class="mt-2 w-100">
+                     <ng-content></ng-content>
+                </div>
+           </div>
+        </div>
+    </div>
+</div>

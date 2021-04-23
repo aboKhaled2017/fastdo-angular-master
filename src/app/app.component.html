@@ -1,0 +1,10 @@
+<app-core>
+    <app-toast aria-live="alert"></app-toast>
+    <ng-container *ngIf="!loadingLazyLoadedRoute">
+        <router-outlet></router-outlet> 
+    </ng-container>
+     
+    <div *ngIf="loadingLazyLoadedRoute" class="spinner-grow intialLoadIndicator text-primary position-fixed" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+</app-core>

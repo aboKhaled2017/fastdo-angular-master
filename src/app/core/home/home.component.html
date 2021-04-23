@@ -1,0 +1,46 @@
+<section id="homeSection">
+    <div class="top-section container-fluid pb-4">
+        <div class="ml-3 mb-4">
+            <h2 *ngIf="!isLogged">مرحبا بك مع فاست دو</h2>
+            <h2 *ngIf="isLogged">مرحبا بك {{entityName}} فى فاست دو</h2>
+            <ng-container *ngIf="!isLogged;else userWelcom">
+                <h2>انضم الى فاست دو واستخدم كل خدماتها</h2>
+                <h6>يسعدنا ان تسجل لدى موقعنا وتنضم الينا</h6>
+            </ng-container>
+            <ng-template #userWelcom>
+                <h6>نقدم لك واحدة من افضل خدمات الادوية على الاطلاق</h6>
+            </ng-template>
+        </div>
+        <div *ngIf="!isLogged" class="row text-center">
+            <div class="col-sm-6 col-xs-12">
+               <div class="img-wrapper">
+                   <img class="img-thumbnail rounded-circle" src="../../../assets/pharmacyIcon.png" alt="">
+                </div>
+                <div class="text-wrapper mt-1">
+                   <h4>انضم الينا كصيدلى</h4>
+                   <h6 class="text-white-50">تحصل على كل خدمات الصيدليات</h6>
+                </div>
+                <button routerLink="/auth/join/as-pharmacy" class="btn btn-primary">
+                    <i class="fa fa-user-plus"></i>
+                    <span class="ml-2">انضم الان</span>
+                </button>
+            </div>
+            <div class="d-block d-sm-none col-xs-12 m-2"></div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="img-wrapper">
+                    <img class="img-thumbnail rounded-circle" src="../../../assets/storeIcon.png" alt="">
+                 </div>
+                 <div class="text-wrapper mt-1">
+                    <h4>انضم الينا كمخزن</h4>
+                    <h6 class="text-white-50">تحصل على كل خدمات المخازن</h6>
+                 </div>
+                 <button routerLink="auth/join/as-store" class="btn btn-primary">
+                     <i class="fa fa-user-plus"></i>
+                     <span class="ml-2">انضم الان</span>
+                 </button>
+            </div>
+        </div>
+    </div>
+    <app-services-section></app-services-section>
+</section>
+

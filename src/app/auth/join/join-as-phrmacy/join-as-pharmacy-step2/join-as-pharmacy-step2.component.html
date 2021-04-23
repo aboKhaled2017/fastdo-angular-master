@@ -1,0 +1,47 @@
+<div *ngIf="currentStep==1"  
+     class="step" [formGroup]="fg">
+        <div class="form-group">
+            <figure class="img-figure">
+                <img [src]="commerialRegImgUrl" class="img-thumbnail img-fluid d-block" alt="صورة السجل التجارى">
+            </figure>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" 
+                       accept="image/*"
+                       #inp
+                       (change)="onFileChange('commerialRegImg',$event)"
+                       (click)="f.commerialRegImg.markAsTouched()"
+                       id="commerialRegImg">
+                <label class="custom-file-label" for="commerialRegImg">صورة السجل التجارى للصيدلية</label>
+            </div>
+            <div class="text-danger" *ngIf="f.commerialRegImg.touched && f.commerialRegImg.invalid">
+                <span *ngIf="f.commerialRegImg.errors.required">
+                    صورة السجل التجارى مطلوبة للصيدلية
+                </span>
+                <span *ngIf="f.commerialRegImg.errors?.g">
+                    {{errors.commerialRegImg[0]}}
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <figure class="img-figure">
+                <img [src]="licenseImgUrl" class="img-thumbnail img-fluid d-block" alt="صورة التراخيص">
+            </figure>
+            <div class="custom-file">
+                <input  accept="image/*"
+                        #inp
+                        (change)="onFileChange('licenseImg',$event)"
+                        (click)="f.licenseImg.markAsTouched()"
+                        type="file" class="custom-file-input" 
+                        id="licenseImg">
+                <label class="custom-file-label" for="licenseImg">صورة اثبات التراخيص للصيدلية</label>
+            </div>
+            <div class="text-danger" *ngIf="f.licenseImg.touched && f.licenseImg.invalid">
+                <span *ngIf="f.licenseImg.errors.required">
+                    صورةاثبات التراخيص مطلوبة للصيدلية
+                </span>
+                <span *ngIf="f.licenseImg.errors?.g">
+                    {{errors.licenseImg[0]}}
+                </span>
+            </div>
+        </div>
+</div>

@@ -1,0 +1,51 @@
+
+<ng-template #status let-s="statusObj">
+    <span [class]="'badge'+' ml-2 '+s.cls">{{s.text}}</span>
+    <p *ngIf="s.message">{{s.message}}</p>
+</ng-template>
+
+<ng-template #controls let-status="status" let-id="pharma.id">
+    <div class="btn-group  btn-group-sm shadow controls" role="group">
+        <button [disabled]="status==3 || status==0" (click)="updateStatus(id,3)" type="button" class="btn btn-warning">
+            <i class="fa fa-info mr-1"></i>
+            <span>تعطيل</span>
+        </button>
+        <button [disabled]="status==2" (click)="updateStatus(id,2)" type="button" class="btn btn-danger">
+            <i class="fa fa-remove mr-1"></i>
+            <span>رفض</span>
+        </button>
+        <button [disabled]="status==1" (click)="updateStatus(id,1)" type="button" class="btn btn-success">
+            <i class="fa fa-check mr-1"></i>
+            <span>موافقة</span>
+        </button>
+    </div>
+</ng-template>
+
+<div class="card">
+    <div class="card-body">
+        <app-loading-status [loading]="loading"></app-loading-status>
+        <h5 class="card-title">
+            <span> صيدلية</span>
+            <strong class="text-primary ml-2">{{item.pharma.name}}</strong>
+        </h5>
+        <div>
+            <p>
+                <ng-container *ngTemplateOutlet="status; context:{statusObj:getStatus()}">
+                </ng-container>
+            </p>
+        </div>
+        <div class="">
+            <table>
+                <tbody>
+                    <tr *ngFor="let d of getDetails()" class="my-1">
+                        <td>{{d.t1}}:</td>
+                        <td class="pl-2 text-info">{{d.t2}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-1">
+            <ng-container *ngTemplateOutlet="controls; context:item"></ng-container>
+        </div>
+    </div>
+</div>

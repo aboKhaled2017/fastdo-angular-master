@@ -1,0 +1,10 @@
+<div class="alert-info">
+    {{form.value | json}}
+</div>
+<div class="alert-success">
+    <ul>
+        <li *ngFor="let ctrl of controls">
+            {{ctrl.errors | json}}
+        </li>
+    </ul>
+</div>

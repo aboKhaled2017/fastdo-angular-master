@@ -1,0 +1,18 @@
+
+  <ngb-toast  [autohide]="toast.autohide"
+              *ngFor="let toast of toastService.toasts"
+              [class]="toast.classname"
+              [animation]="true"
+              [delay]="toast.delay || 5000"
+              [ngClass]="{'noHeader':!toast.headertext}"
+              (hidden)="toastService.remove(toast);">
+              
+          <ng-template ngbToastHeader>
+            <i *ngIf="toast.headertext" class="fa fa-check-circle-o fa-lg mr-2"></i>
+            <span *ngIf="toast.headertext" class="mr-2">{{toast.headertext}}</span>
+          </ng-template>
+      
+      {{toast.textOrTpl}}
+  </ngb-toast>
+
+  

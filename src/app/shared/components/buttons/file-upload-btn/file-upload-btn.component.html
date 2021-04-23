@@ -1,0 +1,7 @@
+<button [class]="'file-upload-button btn '+btnClass" [disabled]="disabled">
+    <i class="fa fa-file-excel-o"></i>
+    <span class="ml-1">{{text}}</span>
+    <input type="file" #fileInput [accept]="accept" 
+           [disabled]="disabled"
+           (change)="onFileSelect(fileInput)" />
+</button>

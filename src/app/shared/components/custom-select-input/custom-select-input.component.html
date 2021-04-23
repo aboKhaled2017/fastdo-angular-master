@@ -1,0 +1,24 @@
+<div class="form-group">
+    <div class="select-wrapper form-control"
+        [ngClass]="{'focus':isFocused}">
+        <span class="top-placeholder pb-1 px-0 mb-1 ml-2 text-secondary">{{topPlaceholder}}</span>
+        <div class="sperator"></div>
+        <select class="w-100"
+            [formControl]="c"
+            (focus)="isFocused=true"
+            (blur)="isFocused=false"
+            [ngClass]="{'border-danger':c.touched && c.invalid}">
+            <option value="">{{placeholder}}</option>
+            <option *ngFor="let op of options"
+                    [value]="op.value">{{op.title}}</option>
+        </select>
+    </div>
+    <div class="text-danger" *ngIf="c.touched && c.invalid">
+        <span *ngIf="c.errors.required">
+            {{errors['required']}}
+        </span>
+        <span *ngIf="c.errors.g">
+            {{errors['g']}}
+        </span>
+    </div>
+</div>

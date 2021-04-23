@@ -1,0 +1,16 @@
+.img-figure{
+    border: 1px solid #eee;
+    padding: 3px;
+    border-radius: 5px;
+    max-height: 150px;
+    overflow-y: auto;
+    img{
+        margin: auto;
+    }
+}
+input{
+    cursor: pointer;
+}
+.custom-file-label::after {
+    content: "تحميل";
+  }

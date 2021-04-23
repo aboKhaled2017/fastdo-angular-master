@@ -1,0 +1,19 @@
+.services-section{
+    color:#000;
+    .services{
+        .service{
+            .img-wrapper{
+                img{
+                   border-radius: 50%;
+                   width: 80px;
+                }
+            }
+            &-title{
+
+            }
+            &-desc{
+
+            }
+        }
+    }
+}

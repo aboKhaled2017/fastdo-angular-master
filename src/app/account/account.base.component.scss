@@ -1,0 +1,11 @@
+@import '../scss/variables';
+
+.wrapper{
+    .content{
+        background: #eee;
+        .tab-content{
+            margin: 0 !important;
+            padding-right: 8px;
+        }
+    }
+}

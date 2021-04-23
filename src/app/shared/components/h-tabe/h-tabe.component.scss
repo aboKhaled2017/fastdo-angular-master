@@ -1,0 +1,17 @@
+@import '../../../scss/variables';
+
+.tabs-container{
+    background: $primary;
+    .link{
+        color: inherit;
+        text-decoration: none;
+        .text,i{
+            opacity: .5;
+        }
+        &.active{
+            .text,i{
+                opacity: 1;
+            }
+        }
+    }
+}

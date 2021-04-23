@@ -1,0 +1,45 @@
+<ng-template #nodata>
+    <tr>
+        <td scope="row" colspan="10">
+            <div class="alert alert-warning text-center">
+                لايوجد بيانات للعرض
+            </div>
+        </td>
+    </tr>
+</ng-template>
+
+<ng-template #tb_row>
+    
+    <ng-container *ngIf="data.length==0; else datatable">
+        <ng-container *ngTemplateOutlet="nodata"></ng-container>
+    </ng-container>
+    
+    <ng-container #datatable *ngFor="let item of data">
+        <app-main-table-row-section [item]="item"
+                                    [collapsed]="collapsed_tr"
+                                    [cols]="cols">
+            <ng-container *ngIf="controls">
+                <ng-container *ngTemplateOutlet="controls; context:item">                
+                </ng-container>
+            </ng-container>
+            
+        </app-main-table-row-section>
+        
+    </ng-container>
+</ng-template>
+
+
+<table class="table table-striped  table-bordered mt-3 text-center">
+    <thead [ngStyle]="tstyle.thead" [class]="tclass.thead">
+        <tr>
+            <th *ngFor="let col of cols" 
+                 scope="col" 
+                 [attr.colspan]="col.cols">
+                <span>{{col.name}} </span>
+            </th>
+        </tr>
+    </thead>
+    <tbody [ngStyle]="tstyle.tbody" [class]="tclass.tbody+' border-0'">
+        <ng-container *ngTemplateOutlet="tb_row"></ng-container>    
+    </tbody>
+</table>

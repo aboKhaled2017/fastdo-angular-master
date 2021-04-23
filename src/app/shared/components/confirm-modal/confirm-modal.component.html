@@ -1,0 +1,32 @@
+<div class="modal-header">
+    <button type="button" class="close btn btn-sm p-1" 
+      aria-label="Close button" aria-describedby="modal-title" 
+      (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" *ngIf="!message">
+    <p><strong>هل انت متأكد من حذف {{deletedType}}  <span class="text-primary">{{deletedName}}</span></strong></p>
+    <p>سيتم حذف كل ما يتعلق ب {{deletedType}}
+    <span class="text-danger">هذه العملية لايمكن استرجاعها مرة اخرى</span>
+    </p>
+      <div *ngIf="template" class="mt-2">
+        <ng-container *ngTemplateOutlet="template"></ng-container>
+      </div>
+  </div>
+  <div class="modal-body" *ngIf="message">
+  <div>{{message}}</div>
+  <div *ngIf="template" class="mt-2">
+    <ng-container *ngTemplateOutlet="template"></ng-container>
+  </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">
+        {{okBtntext}}
+    </button>
+    <button type="button" ngbAutofocus class="btn btn-danger" (click)="modal.close('Ok click')">
+        {{cancelBtntext}}
+    </button>
+  </div>
+

@@ -1,0 +1,38 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <p class="fa-md text-secondary">
+                <span *ngIf="isPharmacy">معلومات اساسية عن الصيدلية ومديرها</span>
+                <span *ngIf="!isPharmacy">معلومات اساسية عن المخزن ومديريه</span>
+            </p>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-12">
+            <div id="from">
+                <div class="form-group">
+                    <input [formControl]="nameControl" 
+                           type="text"
+                           [ngClass]="{'border-danger':nameControl.touched && nameControl.invalid}" 
+                           class="form-control">
+                    <div class="text-danger" *ngIf="nameControl.touched && nameControl.invalid">
+                        <span *ngIf="nameControl.errors.required">
+                             الاسم مطلوب
+                        </span>
+                        <span *ngIf="nameControl.errors.g">
+                            {{nameErrorMessage[0]}}
+                        </span>                                     
+                    </div>                  
+                </div>
+                <div class="form-group">
+                    <app-loading-button [loading]="isLoading" 
+                            type="button"
+                            (clicked)="submit()"
+                            extra="mt-1"
+                            [valid]="nameControl.valid">
+                    </app-loading-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

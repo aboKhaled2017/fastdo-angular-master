@@ -1,0 +1,45 @@
+<ng-template #cards>
+    <div class="col-12 col-md-6 mb-2" *ngFor="let item of mappedDataList;let i=index">
+        <app-pharma-card [card]="item" [index]="i"></app-pharma-card>
+    </div>
+</ng-template>
+
+
+<section id="datalist">
+    <app-loading-status [loading]="loading"></app-loading-status>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-8">
+                <app-paging-section (refresh)="onRefresh()" [pg]="pg" (selectPageSize)="onPageSizeSelected($event)"
+                    (selectPage)="onPageSelected($event)">
+                    <div>
+                        <app-search-input [hasIcon]="false" (textChanged)="onSearchInpChange($event)" #searchInp
+                            label="ابحث بأسم الصيدلية">
+                        </app-search-input>
+                    </div>
+                </app-paging-section>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="w-75">
+                    <select #selectClass class="form-control py-2 px-3">
+                        <option value="">فلترة حسب التصنيف</option>
+                        <option *ngFor="let o of options" [value]="o.name">{{o.name}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="container-fluid mt-2">
+                    <div class="row">
+                        <div class="alert alert-info w-100" *ngIf="mappedDataList.length==0">
+                            لا توجد لديك صيدليات منضمة فى نتائج البحث
+                        </div>
+                        <ng-container *ngTemplateOutlet="cards"></ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,61 @@
+
+<ng-template #status let-s="statusObj">
+    <span [class]="'badge'+' ml-2 '+s.cls">{{s.text}}</span>
+    <p *ngIf="s.message">{{s.message}}</p>
+</ng-template>
+
+<ng-template #cards>
+    <div class="col-12 col-md-6 mb-2" *ngFor="let item of datalist">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <span> مخزن</span> 
+                    <strong class="text-primary ml-2">{{item.name}}</strong>
+                </h5>
+                <div>
+                    <p>
+                        <ng-container *ngTemplateOutlet="status; context:{statusObj:getStatus(item.status)}"></ng-container>
+                    </p>
+                </div>
+                <div>
+                    <span *ngIf="item.seen" class="badge badge-success">لقد تم روئية طلبك</span>
+                    <span *ngIf="!item.seen" class="badge badge-warning">لم يتم روئية طلبك</span>
+                </div>
+                <div class="">
+                   <table>
+                       <tbody>
+                           <tr *ngFor="let d of getDetails(item)" class="my-1">
+                               <td>{{d.t1}}:</td>
+                               <td class="pl-2 text-info">{{d.t2}}</td>
+                           </tr>
+                       </tbody>
+                   </table>
+                </div>
+                <button class="btn btn-danger shadow mt-2" (click)="cancelContract(item.stockId)">
+                    <i class="fa fa-remove mx-1"></i>
+                    <span>الغاء التعاقد مع المخزن</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+<section id="main-section">
+    <app-loading-status [loading]="loading"></app-loading-status>
+    <div class="container-fluid">
+        <div class="row mb-3 mt-3">
+            <div class="col-12">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="alert alert-info w-100" *ngIf="datalist.length==0">
+                            لا توجد مخازن فى نتائج البحث
+                        </div>      
+                        <ng-container *ngTemplateOutlet="cards"></ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+</section>

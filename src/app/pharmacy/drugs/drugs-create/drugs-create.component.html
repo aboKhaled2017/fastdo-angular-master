@@ -1,0 +1,100 @@
+<ng-template #form>
+    <form (ngSubmit)="submit()" [formGroup]="fg">
+        <ng-container *ngIf="editMode">
+            <input type="hidden" formControlName="id">
+            <input type="hidden" formControlName="oldName">
+        </ng-container>
+        
+        <app-input-with-validation [control]="f.name" 
+                        placeholder="الاسم"
+                        [errors]="allErrors.name">               
+        </app-input-with-validation>
+        <app-input-with-validation [control]="f.type" 
+                        placeholder="اختر نوع الراكد"
+                        type="select"
+                        [options]="drugsTypes"
+                        [errors]="allErrors.type">               
+        </app-input-with-validation>            
+     
+        <app-input-with-validation [control]="f.quantity" 
+                        placeholder="الكمية"
+                        type="number"
+                        [errors]="allErrors.quantity">               
+        </app-input-with-validation>       
+        <app-custom-select-input [control]="f.unitType" 
+                        placeholder="نوع الوحدة"
+                        [options]="drugsUnitTypes"
+                        topPlaceholder="نوع الوحدة (شريط , علبة ,كرتونة , كبسولة , ...وحدة اخرى)"
+                        [errors]="allErrors.unitType">
+        </app-custom-select-input>
+        <app-input-with-validation [control]="f.price"  
+                        placeholder="السعر"                      
+                        type="number"
+                        [errors]="allErrors.price">               
+        </app-input-with-validation>           
+        <div class="form-group live-text">
+            <span class="badge badge-info">{{liveText}}</span>
+        </div>
+        <app-custom-select-input [control]="f.priceType" 
+                        placeholder="نوع السعر"
+                        [options]="drugsPriceTypes"
+                        topPlaceholder="نوع السعر (سعر قديم , سعر جديد)"
+                        [errors]="allErrors.priceType">
+        </app-custom-select-input>
+        <app-input-with-validation [control]="f.valideDate"  
+                        placeholder="تاريخ صلاحية الراكد"
+                        type="date"
+                        [errors]="allErrors.valideDate">               
+        </app-input-with-validation> 
+        <app-input-with-validation [control]="f.discount"  
+                        placeholder="نسبة الخصم"
+                        type="number"
+                        [errors]="allErrors.discount">               
+        </app-input-with-validation>
+        <app-custom-select-input [control]="f.consumeType" 
+                        placeholder="طرقة الاستهلاك"
+                        [options]="drugsConsumeTypes"
+                        [disabled]="true"
+                        topPlaceholder="كيفية استهلاك الراكد"
+                        [errors]="allErrors.consumeType">
+        </app-custom-select-input>
+        <app-input-with-validation [control]="f.desc" 
+                        placeholder="عبر عن منتجك بالتفصيل"
+                        type="textarea"
+                        [errors]="allErrors.desc">               
+        </app-input-with-validation>
+
+        <div class="form-group text-center">
+            <app-loading-button [loading]="loaderService.isLoading | async" 
+                                type="submit"
+                                [valid]="fg.valid">
+            </app-loading-button>
+        </div>
+    </form>
+</ng-template>
+
+<section id="create">
+    <div class="container-fluid">
+        <h5 class="text-center text-primary">
+            <span *ngIf="!isEditMode">اضافة راكد</span>
+            <span *ngIf="isEditMode">
+                <span>تعديل الراكد </span>
+                <span class="badge badge-info">{{f.name.value}}</span>
+            </span>
+        </h5>
+        <div class="row my-2" *ngIf="isEditMode">
+            <button class="btn btn-danger px-3 py-1" (click)="cancelEdit()">ألغاء التعديل</button>
+        </div>
+        <div class="row">
+            <div class="col-12  col-md-8  col-lg-6">
+               <ng-container *ngTemplateOutlet="form"></ng-container>
+               <!-- <div class="d-inline-block">
+                  
+                    <app-form-live-status [form]="fg" [props]="['name','type','quantity','price','consumeType','validDate','priceType','unitType','desc']">
+                    </app-form-live-status>
+         
+               </div>   -->         
+            </div>
+        </div>
+    </div>
+</section>

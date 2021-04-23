@@ -1,0 +1,43 @@
+<div class="edit-email">
+  <h6 class="h6 text-secondary mb-4">تغيير البريد الالكترونى</h6>
+    <div id="verify-email" *ngIf="!emailVerified; else verified">
+        <div class="form-group">
+            <input [formControl]="emailControl" 
+                type="text" 
+                placeholder="البريد الالكترونى"
+                [appTrackArabicText]="emailControl"
+                [appTrackArabicTextFromStart]="true"
+                [ngClass]="{'border-danger':emailControl.touched && emailControl.invalid}"
+                class="form-control">
+            <div class="text-danger" *ngIf="emailControl.touched && emailControl.invalid">
+                <span *ngIf="emailControl.errors.required">
+                    البريد الالكترونى مطلوب
+                </span>
+                <span *ngIf="emailControl.errors.g">
+                    {{emailErrorMessage[0]}}
+                </span>                                     
+            </div>                  
+        </div>
+        <div class="form-group">
+            <app-loading-button [loading]="isLoading" 
+                    type="button"
+                    (clicked)="submitEmail()"
+                    extra="mt-1"
+                    [valid]="emailControl.valid">
+            </app-loading-button>
+        </div>
+    </div>
+    <ng-template #verified>
+        <app-account-confirm-edit-email (onSuccess)="emailVerified=false"
+                                        [newEmail]="emailControl.value">
+            <div class="alert alert-info">
+                <i class="fa fa-info-circle mr-2 fa-lg"></i>
+                <span>
+                    لقد ارسالنا كود الى بريدك الالكترونى الجديد!
+                    من فضلك اذهب الى وقم بنسخ الكود المرسل لتأكيد التغيير
+                </span>
+            </div>
+        </app-account-confirm-edit-email>
+    </ng-template>
+  
+</div>

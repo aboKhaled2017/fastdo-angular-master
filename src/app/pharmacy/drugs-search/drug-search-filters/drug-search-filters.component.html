@@ -1,0 +1,19 @@
+<div class="search-controls px-2 mb-3">
+    <div>
+        <app-search-input label="ابحث عن اسم راكد" 
+                          (textChanged)="onSearchChange($event)">
+        </app-search-input>
+    </div>
+    <div class="mt-3">
+        <app-serach-input-select (selectChange)="selectedCityChanged($event)"
+                                 label="ابحث فى محافظة معينة"
+                                 [data]="cities">
+        </app-serach-input-select>
+    </div>
+    <div class="mt-3">
+        <app-serach-input-select (selectChange)="selectedTownChanged($event)"
+                                 label="ابحث فى منطقة معينة"
+                                 [data]="towns">
+        </app-serach-input-select>
+    </div>
+</div>

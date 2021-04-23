@@ -1,0 +1,79 @@
+
+
+<div *ngIf="currentStep==0" 
+     class="step" [formGroup]="fg">
+     <div class="form-group">
+        <input type="text" class="form-control" 
+               placeholder="اسم المخزن"
+               [ngClass]="{'border-danger':f.name.touched && f.name.invalid}"
+               formControlName="name">
+        <div class="text-danger" *ngIf="f.name.touched && f.name.invalid">
+          <span *ngIf="f.name.errors.required">
+                اسم المخزن مطلوب
+          </span>
+          <span *ngIf="f.name.errors?.g">
+              {{errors.name[0]}}
+          </span>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" 
+               placeholder="اسم مدير المخزن"
+               [ngClass]="{'border-danger':f.mgrName.touched && f.mgrName.invalid}"
+               formControlName="mgrName">
+        <div class="text-danger" *ngIf="f.mgrName.touched && f.mgrName.invalid">
+            <span *ngIf="f.mgrName.errors.required">
+                    اسم مدير المخزن مطلوب
+            </span>
+            <span *ngIf="f.mgrName.errors?.g">
+                {{errors.mgrName[0]}}
+            </span>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" 
+               placeholder="اسم مالك المخزن"
+               [ngClass]="{'border-danger':f.ownerName.touched && f.ownerName.invalid}"
+               formControlName="ownerName">
+        <div class="text-danger" *ngIf="f.ownerName.touched && f.ownerName.invalid">
+            <span *ngIf="f.ownerName.errors.required">
+                    اسم مالك المخزن مطلوب
+            </span>
+            <span *ngIf="f.ownerName.errors?.g">
+                {{errors.ownerName[0]}}
+            </span>
+        </div>
+    </div>
+    <div class="form-group position-relative cityControl">
+        <select formControlName="cityId"
+                #city
+                (change)="onCitySelected(city.value)"                                  
+                class="form-control">
+           <option value="">اختر المحافظة</option>
+           <option *ngFor="let city of cities" [value]="city.id">{{city.name}}</option>
+        </select>
+        <div class="text-danger" *ngIf="f.cityId.touched && f.cityId.invalid">
+            <span *ngIf="f.cityId.errors.required">
+                    من فضلك اخترالمحافظة مطلوب
+            </span>
+            <span *ngIf="f.cityId.errors?.g">
+                {{errors.cityId[0]}}
+            </span>
+        </div>
+        <i *ngIf="backgroundLoading" class="fa fa-spin fa-spinner position-absolute text-primary"></i>
+    </div>
+    <div class="form-group">
+        <select formControlName="areaId" class="form-control">
+          <option value="">اختر المنطقة</option>
+           <option *ngFor="let area of areas" [value]="area.id">{{area.name}}</option>
+        </select>
+        <div class="text-danger" *ngIf="f.areaId.touched && f.areaId.invalid">
+            <span *ngIf="f.areaId.errors.required">
+                    من فضلك اخترالمحافظة مطلوب
+            </span>
+            <span *ngIf="f.areaId.errors?.g">
+                {{errors.areaId[0]}}
+            </span>
+        </div>
+    </div>
+</div>

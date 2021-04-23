@@ -1,0 +1,71 @@
+<section id="form">
+    <div class="contain-fluid">
+        <div *ngIf="!completed" class="row">
+            <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3">
+              <div class="alert-danger text-center" *ngIf="generalError">
+                  <span>{{generalError}}</span>
+              </div>
+              <form [formGroup]="form" class="needs-validation">
+                  <app-join-as-store-step1 #step1 [g]="form.get('0')" 
+                                              [step]="currentStep">      
+                  </app-join-as-store-step1>
+                  <app-join-as-store-step2 #step2 [g]="form.get('1')" 
+                                              [step]="currentStep">     
+                  </app-join-as-store-step2>
+                  <app-join-as-store-step3 #step3 [g]="form.get('2')" 
+                                              [step]="currentStep">     
+                  </app-join-as-store-step3>
+                  <app-join-as-store-step4 #step4 [g]="form.get('3')"
+                                              (onValid)="onSubmit()"
+                                              [step]="currentStep">     
+                  </app-join-as-store-step4>
+                 
+                  <div>
+                      <div class="buttons form-group d-flex flex-row justify-content-center align-items-center">
+                          
+                        <ng-container *ngIf="currentStep==3">
+                            <app-loading-button [loading]="loading" 
+                                        type="button"
+                                        (clicked)="step4.onNext()"
+                                        [valid]="group(currentStep).valid">
+                            </app-loading-button>
+                        </ng-container> 
+                        <ng-container *ngIf="currentStep<3">
+                            <app-loading-button [loading]="loading" 
+                                        (clicked)="currentStep==0?step1.onNext():currentStep==1?step2.onNext():currentStep==2?step3.onNext():onNext()" 
+                                        type="button"
+                                        icon="fa-arrow-right"
+                                        text="التالى"
+                                        [valid]="group(currentStep).valid">
+                            </app-loading-button>
+                        </ng-container>
+                        <ng-container *ngIf="currentStep>0">
+                            <app-loading-button [loading]="false" 
+                                        (clicked)="onPrev()" 
+                                        type="button"
+                                        icon="fa-arrow-left"
+                                        text="السابق"
+                                        [valid]="true">
+                            </app-loading-button>
+                        </ng-container>
+
+                      </div>
+                  </div>
+              </form>
+            </div>          
+        </div>
+        <div *ngIf="completed" class="row">
+            <div class="col-12">
+               <app-success-signup></app-success-signup>
+            </div>
+         </div>
+        <div class="row">
+         <!--  <div class="col-12">
+              <app-form-live-status [form]="form.get('2')" [props]="['persPhone','linePhone','confirmPassword']">
+              </app-form-live-status>
+              <app-form-live-status [form]="form.get('3')" [props]="['email','password','confirmPassword']">
+              </app-form-live-status>
+          </div> -->
+        </div>
+    </div>
+  </section>

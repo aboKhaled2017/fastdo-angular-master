@@ -1,0 +1,66 @@
+<section id="joinSection">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-12">
+            <div class="buttons text-center">
+                <button type="button" 
+                       #rla1="routerLinkActive"
+                        routerLink="/auth/join/as-pharmacy"
+                        routerLinkActive="active"
+                        [ngClass]="{'btn-primary':type=='pharmacy','btn-outline-primary':type=='store'}"
+                        class="btn mx-1 shadow">
+                    <i class="fa fa-user-plus mr-1"></i>
+                    <span>انضم كصيدلية</span>
+                </button>
+                <button type="button" 
+                        #rla="routerLinkActive"
+                        routerLink="/auth/join/as-store"
+                        routerLinkActive="active"
+                        [ngClass]="{'btn-primary':type=='store','btn-outline-primary':type=='pharmacy'}"
+                        class="btn mx-1 shadow">
+                        <i class="fa fa-user-plus mr-1"></i>
+                        <span>انضم كمخزن</span>
+                </button>
+            </div>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-12">
+              <div class="join-as-section">               
+               
+                <div class="container-fluid">
+                  <div class="row">
+                      
+                      <div class="col-sm-4 col-md-3 side-content">
+                        <app-vertical-timeline  [current]="isLastStep?currentStep+1:currentStep">
+
+                        </app-vertical-timeline>
+                      </div>
+              
+                      <div class="col-sm-8 col-md-9">
+                        <div class="text-center mt-5 mb-5">
+                          <div class="imgIcon">
+                            <img *ngIf="(type=='pharmacy')" 
+                                  src="../../../assets/pharmacyIcon.png" alt="">
+                            <img *ngIf="(type=='store')" 
+                                  src="../../../assets/storeIcon.png" alt="">
+                          </div>
+                          <div class="formHeader">
+                            <h3 *ngIf="(type=='pharmacy')" 
+                                 class="text-primary">سجل بياناتك وانضم الينا كصيدلى</h3>
+                            <h3 *ngIf="(type=='store')" 
+                              class="text-primary">سجل بياناتك وانضم الينا كمخزن</h3>
+                          </div>
+                        </div>
+                        <router-outlet></router-outlet>
+                      </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</section>
+
+
+

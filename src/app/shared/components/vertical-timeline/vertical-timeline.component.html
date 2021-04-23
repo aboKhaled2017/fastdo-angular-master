@@ -1,0 +1,13 @@
+<div class="bs-vertical-wizard">
+    <ul>
+        <li [ngClass]="{'complete':(current>i),'current':(current==i)}" 
+            *ngFor="let step of steps;let i=index">
+            <span class="step-item-span">
+                <span>{{step}}</span>
+                <i [ngClass]="{'fa-check ico-green':(current>i),'fa-circle-o':(current==i)}" 
+                   class="ico fa"></i>  
+            </span>
+        </li>
+    
+    </ul>                       
+</div>

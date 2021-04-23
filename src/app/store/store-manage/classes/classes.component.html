@@ -1,0 +1,72 @@
+
+<ng-template #removeClassTemplate>
+    <div class="text-center">
+        <h6 class="text-primary">اختر اسم التصنيف البديل</h6>
+        <select #s class="form-control-sm py-2 mt-1" (change)="onSelectedreplacedClass(s.value)">
+            <option *ngFor="let o of getSelectClassDropdown()" [value]="o.id">{{o.name}}</option>
+        </select>
+    </div>
+</ng-template>
+
+<ng-template #editClassTemplate>
+    <div class="">
+        <app-edit-class [options]="getSelectClassDropdown()"
+                        (onSave)="onEditSaved($event)"   [selectInpEnabled]="false"></app-edit-class>
+    </div>
+</ng-template>
+
+
+<ng-template #controls let-id="id">
+    <span class="d-flex justify-content-center">
+        <button class="btn btn-primary btn-sm shadow p-1 rounded-circle" (click)="onEdit(id)">
+            <i class="fa fa-edit text-white fa-lg"></i>
+        </button>
+        <span class="mx-2"></span>
+        <button class="btn btn-danger btn-sm shadow p-1 rounded-circle" (click)="onDelete(id)">
+            <i class="fa fa-remove text-white fa-lg"></i>
+        </button>
+    </span>
+</ng-template>
+
+<ng-template #collapsed let-item="item">
+    <app-drug-item-details [drug]="item"></app-drug-item-details>
+</ng-template>
+
+<section class="datalist">
+    <app-loading-status [loading]="loading"></app-loading-status>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-6">
+                <div>
+                    <button class="btn btn-primary" *ngIf="!addNewClass" (click)="addNewOrCancel('add')">
+                        <i class="fa fa-plus-circle"></i>
+                        <span class="ml-1">اضافة تصنيف جديد</span>
+                    </button>
+                    <button class="btn btn-danger" *ngIf="addNewClass" (click)="addNewOrCancel('cancel')">
+                        <i class="fa fa-remove"></i>
+                        <span class="ml-1">الغاء</span>
+                    </button>
+                </div>
+                
+            </div>
+            <div class="col-6">
+                <div class="d-flex flex-row justify-content-center" *ngIf="addNewClass">
+                   <input type="text" class="form-control mr-1 w-50" [formControl]="classNameControl">
+                    <app-loading-button [loading]="loading" type="button" 
+                                        text="حفظ" 
+                                        classes="btn btn-info text-nowrap"
+                                        (clicked)="save()"
+                                        icon="fa-check-circle" [valid]="classNameControl.valid">
+                    </app-loading-button>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-12">
+                <app-main-table [cols]="cols" [data]="pharmaClasses" [controls]="controls">
+                </app-main-table>
+            </div>
+        </div>
+
+    </div>
+</section>

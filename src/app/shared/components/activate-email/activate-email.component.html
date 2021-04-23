@@ -1,0 +1,8 @@
+<div *ngIf="!isEmailConfirmed">
+   <span class="badge badge-warning w-100 rounded-0 p-0">
+       <span>بريدك الالكترونى غير مفعل ,لقد تم ارسال كود الى 
+           <span class="notArabicFont text-danger">{{email}}</span>
+        احصل على كود التفعيل وقم بالتفعيل من </span>
+        <button class="btn btn-link text-primary" routerLink="/my/account" [state]="{ type: 'activate'}">هنا</button>
+    </span>
+</div>

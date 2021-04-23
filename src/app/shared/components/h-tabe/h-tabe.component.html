@@ -1,0 +1,14 @@
+<div class="container-fluid tabs-container rounded text-white text-center py-2">
+    <div class="row">
+        <div class="col" *ngFor="let tab of tabs">
+            <a  [routerLink]="[ tab.link ]" class="link" routerLinkActive="active">
+                <div>
+                    <i [class]="'fa fa-lg '+tab.iconClass"></i>
+                </div>
+                <div>
+                    <span class="text">{{tab.text}}</span>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

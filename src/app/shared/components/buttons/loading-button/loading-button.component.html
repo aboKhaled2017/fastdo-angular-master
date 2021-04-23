@@ -1,0 +1,34 @@
+<ng-template #spinner>
+    <span *ngIf="isLoading">
+        <span  class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+        <span>جارى التحميل...</span>
+    </span>
+</ng-template>
+<ng-template #btntext>
+    <span *ngIf="!isLoading">
+        <i [class]="iconClass"></i>
+            <span>{{text}}</span>
+    </span>
+</ng-template>
+<ng-template #btn>
+    <button [class]="cls" 
+        [disabled]="isLoading || !isValid"
+        (click)="onClick()"
+        [type]="type">
+        <ng-container *ngTemplateOutlet="spinner"></ng-container>
+        <ng-container *ngTemplateOutlet="btntext"></ng-container>
+    </button>
+</ng-template>
+<ng-template #link>
+    <btn [class]="cls" 
+        [disabled]="isLoading || !isValid"
+        (click)="onClick()">
+        <ng-container *ngTemplateOutlet="spinner"></ng-container>
+        <span>{{text}}</span>
+    </btn>
+</ng-template>
+
+<ng-container *ngIf="type=='link'; then link else btn">
+</ng-container>
+
+

@@ -1,0 +1,42 @@
+<ng-template #controls let-id="id">
+    <span class="d-flex justify-content-center">
+        <button class="btn btn-primary btn-sm shadow p-1 rounded-circle"
+                (click)="onEdit(id)">
+            <i class="fa fa-edit text-white fa-lg"></i>
+        </button>
+        <span class="mx-2"></span>
+        <button class="btn btn-danger btn-sm shadow p-1 rounded-circle"
+                (click)="onDelete(id)">
+            <i class="fa fa-remove text-white fa-lg"></i>
+        </button>
+    </span>
+</ng-template>
+
+<ng-template #collapsed let-item="item">
+    <app-drug-item-details [drug]="item"></app-drug-item-details>
+</ng-template>
+
+<section class="datalist">
+    <app-loading-status [loading]="loading"></app-loading-status>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <app-paging-section (refresh)="onRefresh()"
+                                    [pg]="pg"
+                                    (selectPageSize)="onPageSizeSelected($event)"
+                                    (selectPage)="onPageSelected($event)">
+                </app-paging-section>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <app-main-table [cols]="cols"
+                                [data]="datalist"
+                                [controls]="controls"
+                                [collapsed]="collapsed">
+                </app-main-table>
+            </div>
+        </div>
+       
+    </div>
+</section>

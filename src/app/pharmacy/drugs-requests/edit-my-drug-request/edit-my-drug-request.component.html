@@ -1,0 +1,66 @@
+<ng-template #stock_count_display let-drugs="drugs">
+    <span class="badge badge-primary">{{drugs.length}}</span>
+    <span class="ml-1">مخازن</span>
+ </ng-template>
+
+ <ng-template #inner_controls let-id="id" let-sid="stockId">
+    <button class="btn btn-danger btn-sm shadow p-1 rounded-circle"
+        (click)="deleteDrug(id,sid)">
+       <i class="fa fa-remove text-white fa-lg"></i>
+    </button>
+ </ng-template>
+
+<ng-template #collapsed let-item="item">
+    <app-main-table [cols]="innerCols"
+        [tclass]="{thead:'bg-info'}"
+        [data]="item.drugs"
+        [controls]="inner_controls">
+    </app-main-table>
+</ng-template>
+
+<ng-template #controls let-id="id">
+    <span class="d-flex justify-content-center">
+        <button class="btn btn-danger btn-sm shadow p-1 rounded-circle"
+                (click)="onDelete(id)">
+            <i class="fa fa-remove text-white fa-lg"></i>
+        </button>
+    </span>
+</ng-template>
+
+
+<section class="main-section mb-3">
+    <div class="alert alert-warning" *ngIf="!packageData">
+        لم يتم اختيار طلبية 
+    </div>
+    
+    <div class="container-fluid" *ngIf="packageData">
+        <h5 class="text-primary text-center">
+            <span>تعديل طلبية </span>
+            <span class="ml-1">({{packageData.name}})</span>
+        </h5>
+        <div class="row mt-3">
+
+        </div>
+        <div class="row mt-1">
+           <div class="col-12">
+                <app-main-table [cols]="cols | async"
+                            [data]="datalist"
+                            [controls]="controls"
+                            [collapsed]="collapsed">
+                </app-main-table>
+           </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <app-loading-button [loading]="loading" 
+                                    type="button"
+                                    text="حفظ التغيرات"
+                                    extra="btn-sm"
+                                    icon="fa-send-o"
+                                    (clicked)="saveChanges()"
+                                    [valid]="isChanged">
+                </app-loading-button>
+            </div>
+        </div>
+    </div>
+</section>

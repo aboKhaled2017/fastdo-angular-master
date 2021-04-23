@@ -1,0 +1,22 @@
+<ng-template #icon let-type="sortType" let-active="active">
+    <svg class=""  [ngClass]="{'flipped':type=='desc','active':active}"
+         focusable="false" viewBox="0 0 24 24" 
+         aria-hidden="true">
+         <path d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z">
+         </path>
+    </svg>
+</ng-template>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col" *ngFor="let prop of props; let i=index">
+            <button type="button" class="btn shadow btn-sm" (click)="orderBy(prop,i)">
+                <span class="mr-2 text">{{prop.display}}</span>
+                <span>
+                    <ng-container *ngTemplateOutlet="icon; context:prop"></ng-container>                   
+                </span> 
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+<div>
+    <div class="alert alert-info text-left">
+        <i class="fa fa-info-circle fa-lg"></i>
+        <p *ngIf="drug.consumeType==0">
+            المنتج يستهلك عن طريق البيع مباشرة بخصم {{drug.discount}} %
+        </p>
+        <p *ngIf="drug.consumeType==1">
+            المنتج يستهلك عن طرق الاستبدال مع الصيدليات الاخرى
+        </p>
+    </div>
+    <div class="alert bg-info text-left">
+        <i class="fa fa-info-circle fa-lg"></i>
+        <p *ngIf="drug.requestCount==0">
+            لم يتم عمل اى طلب على هذا الراكد حتى الان
+        </p>
+        <p *ngIf="drug.requestCount>0">
+            <span> تم طلب هذا الراكد عدد </span> 
+            <span class="badge badge-dark text-white">{{drug.requestCount}}</span> 
+            <span> من المرات </span>
+        </p>
+    </div>
+</div>

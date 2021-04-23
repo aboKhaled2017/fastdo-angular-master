@@ -1,0 +1,60 @@
+
+<ng-template #cards>
+    <div class="col-12 col-md-6 mb-2" *ngFor="let item of datalist">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <span> مخزن</span> 
+                    <strong class="text-primary ml-2">{{item.name}}</strong>
+                </h5>
+                <div class="">
+                   <table>
+                       <tbody>
+                           <tr *ngFor="let d of getDetails(item)" class="my-1">
+                               <td>{{d.t1}}:</td>
+                               <td class="pl-2 text-info">{{d.t2}}</td>
+                           </tr>
+                       </tbody>
+                   </table>
+                </div>
+                <button class="btn btn-primary shadow mt-2" (click)="sendRequest(item.id)">
+                    <i class="fa fa-send-o mx-1"></i>
+                    <span>ارسال طلب انضمام</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+<section id="main-section">
+    <app-loading-status [loading]="loading"></app-loading-status>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <app-paging-section (refresh)="onRefresh()"
+                                    [pg]="pg"
+                                    (selectPageSize)="onPageSizeSelected($event)"
+                                    (selectPage)="onPageSelected($event)">
+                    <div>
+                        <app-search-input #searchInp label="ابحث بأسم الخزن">
+                        </app-search-input>
+                    </div>
+                </app-paging-section>
+            </div>
+        </div>
+        <div class="row mb-3 mt-3">
+            <div class="col-12">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="alert alert-info w-100" *ngIf="datalist.length==0">
+                            لا توجد مخازن فى نتائج البحث
+                        </div>      
+                        <ng-container *ngTemplateOutlet="cards"></ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+</section>

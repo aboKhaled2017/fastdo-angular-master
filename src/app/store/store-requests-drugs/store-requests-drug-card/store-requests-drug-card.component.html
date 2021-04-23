@@ -1,0 +1,118 @@
+
+<ng-template #details>
+    <div class="position-absolute card-details" *ngIf="isDetailsShow">
+        <button type="button" (click)="isDetailsShow=false" title="اخفاء التفاصيل"
+            class="btn btn-danger btn-sm shadow  rounded-circle">
+            <i class="fa fa-close text-center"></i>
+        </button>
+        <div class="d-flex flex-column mt-2 text-center">
+            <table class="table-borderless table-striped">
+                <thead>
+                    <tr class="text-info">
+                        <th>اسم منتج الدواء</th>
+                        <th>الكمية المطلوبة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let d of getDrugs()">
+                      <td>{{d.name}}</td>
+                      <td class="text-primary">{{d.q}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #controls let-status="status" let-id="packageId">
+    <div class="btn-group  btn-group-sm shadow controls" role="group">
+        <button [disabled]="status==2" (click)="updateStatus(id,2)" type="button" class="btn btn-danger">
+            <i class="fa fa-remove mr-1"></i>
+            <span>رفض</span>
+        </button>
+        <button [disabled]="status==1" (click)="updateStatus(id,1)" type="button" class="btn btn-success">
+            <i class="fa fa-check mr-1"></i>
+            <span>موافقة</span>
+        </button>
+    </div>
+</ng-template>
+
+<div class="card mt-2 shadow mx-md-5 position-relative">
+    <div class="card-body">
+        <app-loading-status [loading]="loading"></app-loading-status>
+        <div class="d-flex">
+            <div class="d-flex flex-column flex-grow-1">
+                <strong class="text-primary">
+                    <span>صيدلية</span>
+                    <span>/</span>
+                    <span>{{card.pharma.name}}</span>
+                </strong>
+                <div class="mt-1 text-secondary">
+                    <span>اجمالى طلب عدد</span>
+                    <span class="badge badge-primary mx-1">{{card.drugs.length}}</span>
+                    <span>نوع من الرواكد</span>
+                </div>
+                <div class="mt-1">
+                    <div class="d-flex">
+                        <strong class="">تاريخ الطلب</strong>
+                        <span class="badge bg-secondary border-primary text-light py-2 px-3  rounded ml-2">{{card.createdAt}}</span>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="d-flex align-items-center">
+                        <span class="text-primary fa-lg">
+                            <span>العنوان </span>
+                        </span>
+                        <span class="ml-3">
+                            <span class="text-danger mx-2"> | </span>
+                            <span>{{card.pharma.address}}</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="d-flex align-items-center">
+                        <span class="text-primary fa-lg">
+                            <span>هاتف محمول </span>
+                        </span>
+                        <span class="ml-3">
+                            <span class="text-secondary mx-2"> | </span>
+                            <span>{{card.pharma.phoneNumber}}</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="d-flex align-items-center">
+                        <span class="text-secondary fa-lg">
+                            <span>تليفون ارضى</span>
+                        </span>
+                        <span class="ml-3">
+                            <span class="text-danger mx-2"> | </span>
+                            <span>{{card.pharma.landLinePhone}}</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="d-flex align-items-center">
+                        <span class="text-primary fa-lg">
+                            <span>حالة الطلب</span>
+                        </span>
+                        <span class="ml-3">
+                            <span [class]="'badge py-2 px-3 '+card._status.cls">{{card._status.text}}</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="mt-1">
+                    <button type="button" (click)="isDetailsShow=true" title="تفاصيل الطلب"
+                        class="btn btn-secondary btn-sm shadow details-btn rounded-circle">
+                        <i class="fa fa-info text-center"></i>
+                    </button>
+                </div>
+            </div>
+            <div>
+                <ng-container *ngTemplateOutlet="controls; context:card"></ng-container>
+            </div>
+        </div>
+    </div>
+    <ng-container *ngTemplateOutlet="details"></ng-container>
+</div>

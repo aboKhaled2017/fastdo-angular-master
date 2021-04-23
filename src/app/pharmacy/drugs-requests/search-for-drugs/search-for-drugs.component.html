@@ -1,0 +1,123 @@
+
+<ng-template #row_controls>
+    <div class="col-7">
+        <app-paging-section (refresh)="onRefresh()"
+                            [pg]="pg"
+                            (selectPageSize)="onPageSizeSelected($event)"
+                            (selectPage)="onPageSelected($event)">
+            <div>
+                <app-search-input [hasIcon]="false" 
+                                    (textChanged)="onSearchDrugChange($event)"
+                                    #searchInp label="ابحث بأسم الدوا">
+                </app-search-input>
+            </div>
+        </app-paging-section>
+    </div>
+    <div class="col-5">
+        <div class="d-flex justify-content-center">
+            <div>
+                <select class="btn bg-white border-primary shadow  text-nowrap form-control" #s
+                    (change)="selectedStoreChanged(s.value)">
+                    <option value="">ابحث فى مخزن</option>
+                    <option *ngFor="let o of stores" [value]="o.id">{{o.name}}</option>
+                </select>
+            </div>
+            <div class="d-flex flex-column justify-content-between ml-2">
+                <div>
+                    <select #pkg
+                            class="btn bg-white border-primary shadow  text-nowrap form-control" 
+                            (change)="onSelectedPackgChange(pkg.value)">
+                        <option value="">الطلبية الحالية</option>
+                        <option *ngFor="let o of packages"
+                                [selected]="o.id==selectedPackageId" 
+                                [value]="o.id">{{o.name}}</option>
+                    </select>
+                </div>
+                <div class="d-flex justify-content-between mt-1">
+                    <button type="button"
+                            [disabled]="!selectedPackageId" 
+                            class="btn btn-outline-primary btn-sm py-0 flex-grow-1">
+                        حفظ التغيرات
+                    </button>
+                    <button type="button"
+                            [disabled]="!selectedPackageId"  
+                            class="btn btn-info ml-1  btn-sm py-0  flex-grow-1">
+                        عرض الباكج
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #price_display let-price="price">
+ {{price}} جنيه
+</ng-template>
+<ng-template #discount_display let-discount="discount">
+    {{discount*10}}%
+</ng-template>
+<ng-template #status_display let-isJoinedTo="isJoinedTo">
+    <span *ngIf="isJoinedTo" class="badge badge-success py-2">منضم</span>
+    <span *ngIf="!isJoinedTo" class="badge badge-secondary py-2">غير منضم</span>
+</ng-template>
+
+<ng-template #innerControls let-isJoinedTo="isJoinedTo">
+    <button [disabled]="isJoinedTo" class="btn btn-primary btn-sm">
+        <i class="fa fa-plus"></i>
+        <span class="ml-1">اضف الى الطلبية</span>
+    </button>
+</ng-template>
+
+
+<ng-template #collapsed let-item="item">
+    <app-main-table [cols]="innerCols"
+                    [controls]="innerControls"
+                    [tclass]="{thead:'bg-light text-primary text-center'}"
+                    [data]="item.stocks">
+    </app-main-table>
+</ng-template>
+
+<ng-template #col_2_display let-count="stockCount">
+ <div>
+    <span class="badge badge-primary">{{count}}</span> 
+    <span class="ml-1">من المخازن</span>
+ </div>
+</ng-template>
+<ng-template #col_3_display let-hstStk="hstStk">
+    <div>
+       <span class="badge badge-primary">{{(hstStk.discount * 10)}}%</span> 
+       <button class="btn btn-outline-secondary btn-sm ml-1">
+           {{hstStk.stockName}}
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #datatable>
+            <app-main-table [cols]="cols | async"
+                            [data]="dataTable"
+                            [collapsed]="collapsed">
+            </app-main-table>
+</ng-template>
+
+
+<section id="main-section">
+    <app-loading-status [loading]="loading"></app-loading-status>
+    <div class="container-fluid">       
+        <div class="row">
+            <ng-container *ngTemplateOutlet="row_controls"></ng-container>
+        </div>
+        
+        <div class="row mb-3 mt-3">
+            <div class="col-12">
+                <div class="container-fluid">
+                    <div class="row">  
+                        <div class="col-12">
+                            <ng-container *ngTemplateOutlet="datatable"></ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+</section>

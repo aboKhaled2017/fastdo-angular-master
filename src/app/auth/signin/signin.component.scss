@@ -1,0 +1,21 @@
+#loginSection{
+    margin-top: 50px;
+    .radio{
+        .custom-control{
+            cursor: pointer;
+            input,label{
+                cursor: pointer;
+            }
+        }
+        input{
+            width: 20px;
+            height: 20px;
+            margin-left: 6px;
+            vertical-align: middle;
+        }
+        
+        .form-check-label{
+
+        }
+    }
+}

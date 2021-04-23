@@ -1,0 +1,48 @@
+
+
+<ng-template #controls let-status="status" let-id="pharma.id">
+    <div class="btn-group  btn-group-sm shadow controls" role="group">
+        <button *ngIf="status==3" (click)="updateStatus(id,1)" type="button" class="btn btn-info">
+            <i class="fa fa-info mr-1"></i>
+            <span>تفعيل</span>
+        </button>
+        <button *ngIf="status!=3" (click)="updateStatus(id,3)" type="button" class="btn btn-warning">
+            <i class="fa fa-info mr-1"></i>
+            <span>تعطيل</span>
+        </button>
+        <button (click)="updateStatus(id,2)" type="button" class="btn btn-danger">
+            <i class="fa fa-remove mr-1"></i>
+            <span>الغاء التعاقد</span>
+        </button>
+    </div>
+</ng-template>
+
+<div class="card">
+    <div class="card-body">
+        <app-loading-status [loading]="loading"></app-loading-status>
+       <div class="d-flex flex-row">
+            <h5 class="card-title flex-grow-1">
+                <span> صيدلية</span>
+                <strong class="text-primary ml-2">{{item.pharma.name}}</strong>
+            </h5>
+            <div *ngIf="item.status==3">
+                <p>
+                    <span class="badge badge-danger ml-2">لقد قمت بتعطيل هذه الصيدلية</span>
+                </p>
+            </div>
+       </div>
+        <div class="">
+            <table>
+                <tbody>
+                    <tr *ngFor="let d of getDetails()" class="my-1">
+                        <td>{{d.t1}}:</td>
+                        <td class="pl-2 text-info">{{d.t2}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="mt-1">
+            <ng-container *ngTemplateOutlet="controls; context:item"></ng-container>
+        </div>
+    </div>
+</div>

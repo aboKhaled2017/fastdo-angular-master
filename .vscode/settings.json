@@ -1,0 +1,21 @@
+{
+    "npm.exclude": "",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/karma.conf":true,
+        "**/.readme": true,
+        ".editorconfig": true,
+        //"tslint.json": true,
+        "e2e":true,
+        "**/*.spec.ts":true,
+        "**/*.spec.json": true,
+        ".browserslistrc": true,
+        "**/*.md":true,
+        "karma.conf.js":true,
+        "node_modules":true
+    }
+}

@@ -1,0 +1,40 @@
+<div class="edit-code">
+    <h6 class="h6 text-secondary mb-4">تفعيل بريد الالكترونى الخاص بالحساب</h6>
+    <div class="my-2">
+        <span class="badge badge-info">لم يصلنى الكود الى بريدى الالكترونى</span>
+        <app-loading-button [loading]="sendingCodeAgain" 
+                type="link"
+                (clicked)="sendCodeAgain()"
+                extra="mt-1"
+                text="ارسال مرة اخرى"
+                [valid]="!sendingCodeAgain">
+        </app-loading-button>
+    </div>
+    <div id="verify-code">
+        <div class="form-group">
+            <input [formControl]="codeControl" 
+                type="text" 
+                placeholder="كود تفعيل البريد الالكترونى"
+                [ngClass]="{'border-danger':codeControl.touched && codeControl.invalid}"
+                class="form-control">
+            <div class="text-danger" *ngIf="codeControl.touched && codeControl.invalid">
+                <span *ngIf="codeControl.errors.required">
+                    كود التفعيل مطلوب
+                </span>
+                <span *ngIf="codeControl.errors.g">
+                    {{codeErrorMessage[0]}}
+                </span>                                     
+            </div>                  
+        </div>
+        <div class="form-group">
+            <app-loading-button [loading]="isLoading" 
+                    type="button"
+                    (clicked)="activate()"
+                    extra="mt-1"
+                    icon="fa-check"
+                    text="تفعيل"
+                    [valid]="codeControl.valid">
+            </app-loading-button>
+        </div>
+    </div>
+</div>

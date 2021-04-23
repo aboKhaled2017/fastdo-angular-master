@@ -1,0 +1,98 @@
+<section id="loginSection">
+  <div class="text-center mb-2">
+      <i class="fa fa-user-o fa-5x text-primary"></i>
+  </div>
+  <h2 class="text-primary text-center">سجل الدخول</h2>
+  <div class="container-fluid mt-5">
+      <div class="row">
+          
+          <div class="col-12 offset-0 col-sm-4 offset-sm-4">
+            <div class="formSection mt-3">
+                <div class="alert-danger text-center" *ngIf="errors.g">
+                    <span>{{errors.g}}</span>
+                </div>
+                <form (ngSubmit)="onSubmit()" 
+                      class="mt-1"
+                      [formGroup]="form">
+                    <div class="form-group">
+                        <input type="email" class="form-control"
+                               formControlName="email"
+                               [appTrackArabicText]="f.email"
+                               [ngClass]="{'border-danger':f.email.touched && f.email.invalid}"
+                               placeholder="البريد الالكترونى">
+                    <div class="text-danger" *ngIf="f.email.touched && f.email.invalid">
+                            <span *ngIf="f.email.errors.required">
+                                 البريد الالكترونى مطلوب 
+                            </span>
+                            <span *ngIf="f.email.errors.email">
+                                البريد الالكترونى غير صحيح
+                            </span>
+                            <span *ngIf="f.email.errors.g">
+                                {{errors.email[0]}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control"
+                               formControlName="password"
+                               [ngClass]="{'border-danger':f.password.touched && f.password.invalid}"
+                               placeholder="كلمة المرور">
+                        <div class="text-danger" *ngIf="f.password.touched && f.password.invalid">
+                            <span *ngIf="f.password.errors.required">
+                                كلمة المرور مطلوبة
+                            </span>
+                            <span *ngIf="f.password.errors.g">
+                                {{errors.password[0]}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="h5 text-center">الدخول ك</div>
+                        <div class="radio">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" class="custom-control-input" id="customRadio"
+                                       formControlName="userType" value="0">
+                                <label class="custom-control-label" for="customRadio">صيدلية</label>
+                              </div>
+                              <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" class="custom-control-input" id="customRadio2"
+                                       formControlName="userType" value="1">
+                                <label class="custom-control-label" for="customRadio2">مخزن</label>
+                              </div>
+                        </div>
+                        <div class="text-danger" *ngIf="f.userType.touched && f.userType.invalid">
+                            <span *ngIf="f.userType.errors.required">
+                                ادخل نوع الدخول
+                            </span>
+                            <span *ngIf="f.userType.errors.g">
+                                {{errors.userType[0]}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group text-center m-0">
+                        <a routerLink="/auth/forgot-password" class="btn btn-link m-0 p-0 text-secondary">
+                            هل نسيت كلمة السر؟
+                        </a>
+                    </div>
+                    <div class="form-group text-center">
+                        <app-loading-button [loading]="loading" 
+                                            type="submit"
+                                            text="دخول الان"
+                                            [valid]="form.valid">
+                        </app-loading-button>
+                    </div>
+                </form>
+                <div class="noAccount text-center">
+                    <span>ليس لدى حساب سجل الانضمام من</span>
+                    <button routerLink="/auth/join/as-pharmacy" class="btn btn-link">هنا</button>
+                </div>
+              </div>
+          </div>
+          <!-- <div class="col-12 col-sm-4">
+            <app-form-live-status [form]="form" [props]="['email','password','userType']">
+            </app-form-live-status>
+          </div> -->
+      </div>
+  </div>
+  
+</section>

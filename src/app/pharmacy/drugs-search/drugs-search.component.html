@@ -1,0 +1,36 @@
+<section id="searchSection mt-4">
+    <h3 class="text-primary text-center my-4">صفحة البحث عن الرواكد</h3>
+    <div class="container-fluid">
+        <app-loading-status [loading]="loading"></app-loading-status>
+        <div class="row">
+            <div class="col-4">
+                <app-drug-search-filters></app-drug-search-filters>
+            </div>
+            <div class="col-8">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="search-result">
+                                <app-paging-section (refresh)="onRefresh()"
+                                                    [pg]="pg"
+                                                    (selectPageSize)="onPageSizeSelected($event)"
+                                                    (selectPage)="onPageSelected($event)">
+                                </app-paging-section>
+                           </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <app-dru-search-sorting></app-dru-search-sorting>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <app-drug-search-result></app-drug-search-result>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

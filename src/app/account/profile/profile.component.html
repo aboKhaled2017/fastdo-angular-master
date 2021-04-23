@@ -1,0 +1,30 @@
+<section id="profile">
+  <app-base-account>
+    <slot-header>
+      <h2 class="h2 text-primary text-center">صفحة العضوية</h2>
+    </slot-header>
+      <div  class="d-flex v-tabs">
+        <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-pills w-25" orientation="vertical">
+          <li ngbNavItem="top">
+            <a ngbNavLink class="text-center">
+                <i class="fa fa-user fa-lg d-block text-primary"></i>
+                <span class="mt-2 text">اسم الخزن</span>
+            </a>
+            <ng-template ngbNavContent>
+              <app-profile-basic-info></app-profile-basic-info>
+            </ng-template>
+          </li>
+          <li ngbNavItem="middle">
+            <a ngbNavLink class="text-center">
+                <i class="fa fa-phone fa-lg d-block text-primary"></i>
+                <span class="mt-2 text">بيانات التواصل</span>
+            </a>
+            <ng-template ngbNavContent>
+              <app-profile-contacts></app-profile-contacts>
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav" class="w-75 px-md-5"></div>
+      </div>
+  </app-base-account>
+</section>

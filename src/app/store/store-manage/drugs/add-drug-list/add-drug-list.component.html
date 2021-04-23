@@ -1,0 +1,21 @@
+<ng-template #uploadFileTemp>
+    <div class="d-flex m-auto px-y justify-content-center align-items-center flex-column">
+        <div class="w-100">
+            <app-file-upload-btn btnClass="btn-primary w-100" [disabled]="loading" (onChange)="onExcelFileChange($event)"
+                accept=".csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
+                errorMess="نوع الملف لابد ان يكون من نوع اكسل" text="رفع ملف ادوية">
+            </app-file-upload-btn>
+        </div>
+        <select #s class="form-control py-2 px-3 mt-1"  
+              (change)="onSelectClass(s.value)">
+            <option value="">اختر التصنيف</option>
+            <option *ngFor="let o of classes" [value]="o.id">{{o.name}}</option>
+        </select>
+    </div>
+</ng-template>
+
+
+<button class="btn btn-primary w-100" (click)="onOpenModal()">
+    <i class="fa fa-file-excel-o"></i>
+    <span class="ml-1">رفع ملف ادوية</span>
+</button>

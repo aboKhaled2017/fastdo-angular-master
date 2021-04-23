@@ -1,0 +1,51 @@
+
+<div *ngIf="currentStep==2" 
+     class="step" [formGroup]="fg">
+    <div class="form-group">
+    <input type="text" class="form-control" 
+            placeholder="رقم الهاتف المحمول"
+            formControlName="persPhone"
+            [ngClass]="{'border-danger':f.persPhone.touched && f.persPhone.invalid}">
+    <div class="text-danger" *ngIf="f.persPhone.touched && f.persPhone.invalid">
+        <span *ngIf="f.persPhone.errors.required">
+            رقم الهاتف المحمول مطلوب
+        </span>
+        <span *ngIf="f.persPhone.errors.pattern">
+            رقم الهاتف المحمول غير صحيح
+        </span>
+        <span *ngIf="f.persPhone.errors?.g">
+            {{errors.persPhone[0]}}
+        </span>
+    </div>
+    </div>
+    <div class="form-group">
+    <input type="tel" class="form-control" 
+            placeholder="رقم التليفون الارضى"
+            formControlName="linePhone"
+            [ngClass]="{'border-danger':f.linePhone.touched && f.linePhone.invalid}">
+            
+    <div class="text-danger" *ngIf="f.linePhone.touched && f.linePhone.invalid">
+        <span *ngIf="f.linePhone.errors.required">
+            رقم التليفون الارضى مطلوب
+        </span>
+        <span *ngIf="f.linePhone.errors.pattern">
+            رقم التليفون الارضى غير صحيح
+        </span>
+        <span *ngIf="f.linePhone.errors?.g">
+            {{errors.linePhone[0]}}
+        </span>
+    </div>
+    </div>
+    <div class="form-group">
+    <input type="text" class="form-control" 
+            placeholder="عنوان المخزن بالتفصيل"
+            formControlName="address"
+            [ngClass]="{'border-danger':f.address.touched && f.address.invalid}">
+
+    <div class="text-danger" *ngIf="f.address.touched && f.address.invalid">
+        <span *ngIf="f.address.errors?.g">
+            {{errors.address[0]}}
+        </span>
+    </div>
+    </div>
+</div>

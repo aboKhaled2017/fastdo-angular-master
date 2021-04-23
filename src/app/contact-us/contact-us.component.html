@@ -1,0 +1,85 @@
+<section class="mt-5 px-2 contactus-section">
+  <h2 class="text-primary text-center">
+    اترك لنا رسالتك
+  </h2>
+  <div class="container">
+      <div class="row">
+          <div class="col-md-6 col-sm-12 offset-md-3">
+            <div class="contact-form">
+                <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <input type="text" class="form-control" 
+                               [ngClass]="{'border-danger':f.name.touched && f.name.invalid}"
+                               formControlName="name"
+                               placeholder="الاسم">
+                        <div class="text-danger" *ngIf="f.name.touched && f.name.invalid">
+                            <span *ngIf="f.name.errors.pattern">
+                                الاسم غير صحيح
+                            </span>
+                            <span *ngIf="f.name.errors.other">
+                                {{errors.name[0]}}
+                           </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" 
+                               class="form-control"
+                               [appTrackArabicText]="f.email"
+                               formControlName="email"
+                               [ngClass]="{'border-danger':f.email.touched && f.email.invalid}"
+                               placeholder="* البريد الالكترونى">
+                        <div class="text-danger" *ngIf="f.email.touched && f.email.invalid">
+                            <span *ngIf="f.email.errors.required">
+                                البريد الالكترونى مطلوب
+                            </span>
+                            <span *ngIf="f.email.value.length>0 && f.email.errors.email">
+                                البريد الالكترونى غير صحيح
+                            </span>
+                            <span *ngIf="f.email.errors.other">
+                                {{errors.email[0]}}
+                           </span>
+                        </div>
+                      </div>
+                    <div class="form-group">
+                        <input type="text" 
+                               class="form-control" 
+                               formControlName="subject"
+                               [ngClass]="{'border-danger':f.subject.touched && f.subject.invalid}"
+                               placeholder="* الموضوع">
+                        <div class="text-danger" *ngIf="f.subject.touched && f.subject.invalid">
+                            <span *ngIf="f.subject.errors.required">
+                                اسم الموضوع مطلوب
+                            </span>
+                            <span *ngIf="f.subject.errors.other">
+                                {{errors.subject[0]}}
+                           </span>
+                        </div>
+                      </div>
+                    <div class="form-group">
+                        <textarea type="text" class="form-control" 
+                                  formControlName="message"
+                                  [ngClass]="{'border-danger':f.message.touched && f.message.invalid}"
+                                  placeholder="* الرسالة" rows="6">
+          
+                        </textarea>
+                        <div class="text-danger" *ngIf="f.message.touched && f.message.invalid">
+                            <span *ngIf="f.message.errors.required">
+                                 الرسالة مطلوبة 
+                            </span>
+                            <span *ngIf="f.message.errors.other">
+                                {{errors.message[0]}}
+                           </span>
+                        </div>
+                      </div>
+                    <div class="form-group">
+                        <app-loading-button [loading]="isLoading" 
+                                            type="submit"
+                                            [valid]="form.valid">
+                        </app-loading-button>
+                      </div>
+                </form>
+            </div>
+          </div>
+      </div>
+  </div>
+</section>

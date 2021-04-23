@@ -1,0 +1,7 @@
+.calendar{
+    border:1px solid #ced4da;
+    &:hover,&:focus{
+        outline: none;
+        box-shadow: none;
+    }
+}

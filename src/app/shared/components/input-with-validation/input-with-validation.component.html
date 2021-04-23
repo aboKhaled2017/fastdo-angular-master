@@ -1,0 +1,93 @@
+
+<ng-template #textarea>
+    <textarea  class="form-control"
+        [formControl]="c"
+        [ngClass]="{'border-danger':c.touched && c.invalid}"
+        [placeholder]="placeholder">
+    </textarea>
+    <div class="text-danger" *ngIf="c.touched && c.invalid">
+        <span *ngIf="c.errors.required">
+            {{errors['required']}}
+        </span>
+        <span *ngIf="c.errors.g">
+            {{errors['g']}}
+        </span>
+    </div>
+</ng-template>
+<ng-template #input>
+    <input [type]="type" class="form-control"
+           [formControl]="c"
+           [ngClass]="{'border-danger':c.touched && c.invalid}"
+           [appTrackArabicText]="type=='number'?c:null"
+           [placeholder]="placeholder">
+    <div class="text-danger" *ngIf="c.touched && c.invalid">
+        <span *ngIf="c.errors.required">
+            {{errors['required']}}
+        </span>
+        <span *ngIf="type=='number' && c.errors.notNumber">
+            {{errors['notNumber']}}
+        </span>
+        <span *ngIf="c.errors.g">
+            {{errors['g']}}
+        </span>
+    </div>
+</ng-template>
+<ng-template #select>
+    <select class="form-control"
+           [formControl]="c"
+           [ngClass]="{'border-danger':c.touched && c.invalid}">
+           <option value="">{{placeholder}}</option>
+           <option *ngFor="let op of options" [value]="op.value">{{op.title}}</option>
+    </select>
+    <div class="text-danger" *ngIf="c.touched && c.invalid">
+        <span *ngIf="c.errors.required">
+            {{errors['required']}}
+        </span>
+        <span *ngIf="c.errors.g">
+            {{errors['g']}}
+        </span>
+    </div>
+</ng-template>
+<ng-template #date>
+    <div class="input-group">
+        <div class="input-group-append">
+            <button class="btn  border-left-0 calendar" 
+                 (click)="d.toggle();dateChanged()"
+                 [ngClass]="{'border-danger':c.touched && c.invalid}" 
+                 type="button">
+                 {{placeholder}}
+            </button>
+         </div>
+        <input class="form-control border-right-0"
+               name="dp" 
+               [appTrackArabicText]="c"
+               placeholder="اليوم-الشهر-السنه"
+               [ngClass]="{'border-danger':c.touched && c.invalid}"
+               [formControl]="c" 
+               ngbDatepicker #d="ngbDatepicker" #spy>
+       
+    </div>
+    <div class="text-danger" *ngIf="c.touched && c.invalid">
+        <span *ngIf="c.errors.required">
+            {{errors['required']}}
+        </span>
+        <span *ngIf="c.errors.g">
+            {{errors['g']}}
+        </span>
+    </div>
+</ng-template>
+
+
+<div class="form-group" *ngIf="type=='textarea'">
+    <ng-container *ngTemplateOutlet="textarea"></ng-container>  
+</div>
+<div class="form-group" *ngIf="type=='select'">
+    <ng-container *ngTemplateOutlet="select"></ng-container>  
+</div>
+<div class="form-group" *ngIf="type=='date'">
+    <ng-container *ngTemplateOutlet="date"></ng-container>  
+</div>
+<div class="form-group" *ngIf="type!='textarea' && type!='select' && type!='date'">
+    <ng-container *ngTemplateOutlet="input"></ng-container>  
+</div>
+
