@@ -26,6 +26,7 @@ import { ActivateEmailComponent } from '../shared/components/activate-email/acti
 import { PaginatorService } from '../shared/services/paginator.service';
 import { PaginatorInterceptor } from '../shared/helpers/paginator.Interceptor';
 import { ComponentOnDeactivate } from '../shared/helpers/component.canDeActivate';
+import { TechSupportAdapter } from '../shared/components/chat/adapter';
 
 
 
@@ -51,6 +52,7 @@ import { ComponentOnDeactivate } from '../shared/helpers/component.canDeActivate
     PaginatorService,
     ToastService,
     DataStorageService,
+    TechSupportAdapter,
     ComponentOnDeactivate,
     {provide:HTTP_INTERCEPTORS,useClass:LoaderInterceptor,multi:true},
     {provide:HTTP_INTERCEPTORS,useClass:JwtInterceptor,multi:true},

@@ -1,94 +1,123 @@
-
 /* @import '../node_modules/bootstrap-v4-rtl/dist/css/bootstrap.min.css'; */
 
-@import './assets/Icons/scss/font-awesome.scss';
-@import '../node_modules/bootstrap-v4-rtl/dist/css/bootstrap-rtl.min.css';
+@import "./assets/Icons/scss/font-awesome.scss";
+@import "../node_modules/bootstrap-v4-rtl/dist/css/bootstrap-rtl.min.css";
 @fa-font-path: './assets/Icons/fonts';
 @font-face {
-    font-family: "arabic_font";
-    src: url(./assets/fonts/GE_Dinar_Two_Medium.otf);
-    src: url(./assets/fonts/GE_Dinar_Two_Medium.otf) format("embedded-opentype"), 
+  font-family: "arabic_font";
+  src: url(./assets/fonts/GE_Dinar_Two_Medium.otf);
+  src: url(./assets/fonts/GE_Dinar_Two_Medium.otf) format("embedded-opentype"),
     url(./assets/fonts/GE_Dinar_Two_Medium.otf) format("woff"),
-     url(./assets/fonts/GE_Dinar_Two_Medium.otf) format("truetype");
-    font-weight: 400;
-    font-style: normal;
-  }
-  .rtl .dropdown-menu, [dir=rtl] .dropdown-menu {
-    left: inherit !important;
-  }
-  ngb-datepicker-navigation{
-    direction: ltr;
-  }
-  .arabicFont{
-    font-family:arabic_font !important
-  }
-   
-  code {
-    font-family:arabic_font, source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-      monospace;
-  }
+    url(./assets/fonts/GE_Dinar_Two_Medium.otf) format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+.rtl .dropdown-menu,
+[dir="rtl"] .dropdown-menu {
+  left: inherit !important;
+}
+ngb-datepicker-navigation {
+  direction: ltr;
+}
+.arabicFont {
+  font-family: arabic_font !important;
+}
 
-*{
-    direction: rtl;
+code {
+  font-family: arabic_font, source-code-pro, Menlo, Monaco, Consolas,
+    "Courier New", monospace;
 }
-*:not(.fa):not(.notArabicFont){
-  font-family:arabic_font !important;
+
+* {
+  direction: rtl;
 }
-.notArabicFont{
+*:not(.fa):not(.notArabicFont) {
+  font-family: arabic_font !important;
+}
+.notArabicFont {
   font-family: initial;
 }
-html, body { height: 100%; 
+html,
+body {
+  height: 100%;
 }
-body { margin: 0;position: relative;}
-.ngb-toast{
-  .noHeader{
-    .toast-header{
+body {
+  margin: 0;
+  position: relative;
+}
+.ngb-toast {
+  .noHeader {
+    .toast-header {
       padding: 0;
-      .close{
+      .close {
         top: 2px;
         font-size: 35px;
         left: 7px;
       }
     }
-    .toast-body{
+    .toast-body {
       padding-left: 35px;
     }
   }
- .toast-header{
-   .close{
-    outline-style: none;
-    font-size: 28px;
-    position: absolute;
-    left: 6px;
-    top: -2px;
-   }
- }
+  .toast-header {
+    .close {
+      outline-style: none;
+      font-size: 28px;
+      position: absolute;
+      left: 6px;
+      top: -2px;
+    }
+  }
 }
-.intialLoadIndicator{
-  $width:150px;
-  width:$width;
+.intialLoadIndicator {
+  $width: 150px;
+  width: $width;
   height: 150px;
-  top:25%;
-  left:calc(50% - #{$width/2});
+  top: 25%;
+  left: calc(50% - #{$width/2});
   z-index: 9999999999;
 }
-.hidden{
-    display: none !important;
+.hidden {
+  display: none !important;
 }
 
-input,select,textarea{
-  &.ng-{
-    &touched{
-      &.ng-invalid{
+input,
+select,
+textarea {
+  &.ng- {
+    &touched {
+      &.ng-invalid {
         //border: 1px solid #f00;
       }
     }
-   }
+  }
 }
-form{
-  .form-group{
-    .text-danger{
+form {
+  .form-group {
+    .text-danger {
       font-size: 12px;
+    }
+  }
+}
+
+//chating extension
+#ng-chat.light-theme .file-message-container.received,
+#ng-chat.light-theme {
+  .received-chat-message-container {
+    float: right;
+    margin-left: initial;
+    margin-right: 40px;
+  }
+}
+
+.ng-chat-window {
+  .ng-chat-messages {
+    .ng-chat-message {
+      > .icon-wrapper,
+      > img.avatar {
+        right: 10px;
+        left: initial;
+      }
     }
   }
 }

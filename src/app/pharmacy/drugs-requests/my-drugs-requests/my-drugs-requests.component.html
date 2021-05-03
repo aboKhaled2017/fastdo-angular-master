@@ -1,13 +1,25 @@
-<ng-template #stock_count_display let-stkCount="stkCount">
-   <span class="badge badge-primary">{{stkCount}}</span>
-   <span class="ml-1">مخازن</span>
+<ng-template #stock_count_display let-count="stkCount">
+   <ng-container *ngIf="count==0; else mtz">
+       <span class="badge badge-light">لا يوجد</span>
+   </ng-container>
+   <ng-template #mtz>
+        <span class="badge badge-primary">{{count}}</span>
+        <span class="ml-1">مخازن</span>
+   </ng-template>
 </ng-template>
-<ng-template #drugs_count_display let-drugsCount="drugsCount">
-    <span class="badge badge-primary">{{drugsCount}}</span>
-    <span class="ml-1">راكد</span>
+
+<ng-template #drugs_count_display let-count="drugsCount">  
+    <ng-container *ngIf="count==0; else mtz">
+        <span class="badge badge-light">لا يوجد</span>
+    </ng-container>
+    <ng-template #mtz>
+        <span class="badge badge-primary">{{count}}</span>
+        <span class="ml-1">راكد</span>
+    </ng-template>
 </ng-template>
-<ng-template #g_status_display let-status="status">
-    <span class="badge badge-info py-2">{{status}}</span>
+
+<ng-template #g_status_display let-status="status" let-count="stkCount">
+    <span *ngIf="count>0" class="badge badge-info py-2">{{status}}</span>
 </ng-template>
 
 <ng-template #controls let-id="packageId">
@@ -76,10 +88,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-3">
-                <button class="btn btn-primary">
-                    <i class="fa fa-plus-circle"></i>
-                    <span class="ml-1">اضافة طلبية جديدة</span>
-                </button>
+                <app-add-new-package></app-add-new-package> 
             </div>
             <div class="col-9">
                 <app-paging-section (refresh)="onRefresh()"

@@ -25,4 +25,5 @@ export class PagingSectionComponent implements OnInit {
   onPageSizeChange(pageSize){
      this.onPageSizeChganged.emit(pageSize);
   }
+
 }

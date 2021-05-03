@@ -4,5 +4,6 @@ export interface IGeneralPagination{
     currentPage:number
     totalPages:number
     prevPageLink:string|null
-    nextPageLink:string|null
+    nextPageLink:string|null,
+    urlName:string
 }

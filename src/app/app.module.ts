@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { ServiceLocator } from './shared/helpers/serviceLocator';
+import { NgChatModule } from 'ng-chat';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ServiceLocator } from './shared/helpers/serviceLocator';
     BrowserAnimationsModule,
     CoreModule,
     SharedModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgChatModule
   ],
   providers: [],
   schemas:[NO_ERRORS_SCHEMA,CUSTOM_ELEMENTS_SCHEMA],

@@ -12,7 +12,6 @@ export class LoadingStatusComponent implements OnInit {
   constructor(private elementRef:ElementRef<HTMLElement>,private dom:Renderer2) { }
 
   ngOnInit(): void {
-    console.log()
   }
   ngAfterViewInit(): void {
     this.dom.addClass(this.elementRef.nativeElement.parentElement,'loading-wrapper')

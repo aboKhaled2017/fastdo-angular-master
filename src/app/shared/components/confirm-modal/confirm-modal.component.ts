@@ -1,5 +1,6 @@
 import { Component, Input, TemplateRef } from '@angular/core';
 import { ModalDismissReasons, NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-confirm-modal',
@@ -15,7 +16,9 @@ export class ConfirmModalComponent  {
   @Input() template:TemplateRef<any>;
   @Input() okBtntext:string="نعم";
   @Input() cancelBtntext:string="الغاء";
-  constructor(public modal: NgbActiveModal,private modalService:NgbModal) {}
+  @Input() hasHeader=false;
+  constructor(public modal: NgbActiveModal,private modalService:NgbModal) {
+  }
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
     .result.then((result) => {

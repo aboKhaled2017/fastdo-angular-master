@@ -1,0 +1,51 @@
+
+<ng-template #innerControls let-isJoinedTo="isJoinedTo" let-id="id" 
+                            let-stockId="stockId" 
+                            let-sName="stockName" 
+                            let-price="price"
+                            let-discount="discount">
+    <button [disabled]="!isJoinedTo || isDrugAdded(stockId,id)" 
+            (click)="addToPackage(id,stockId,sName,price,discount)"
+            class="btn btn-primary btn-sm">
+        <i class="fa fa-plus"></i>
+        <span class="ml-1">اضف الى الطلبية</span>
+    </button>
+</ng-template>
+
+<ng-template #price_display let-price="price">
+    {{price}} جنيه
+</ng-template>
+
+<ng-template #discount_display let-discount="discount">
+    {{discount*10}}%
+</ng-template>
+
+<ng-template #status_display let-isJoinedTo="isJoinedTo">
+    <span *ngIf="isJoinedTo" class="badge badge-success py-2">منضم</span>
+    <span *ngIf="!isJoinedTo" class="badge badge-secondary py-2">غير منضم</span>
+</ng-template>
+
+<ng-template #quantity>
+    <div class="w-50">
+        <input type="text" class="form-control" 
+               [formControl]="quantityInpControl"
+               [ngClass]="{'border-danger':quantityInpControl.touched && quantityInpControl.invalid}" 
+               placeholder="الكمية المطلوبة">
+        <div class="text-danger" *ngIf="quantityInpControl.touched && quantityInpControl.invalid">
+            <span *ngIf="quantityInpControl.errors.required">
+                الكمية مطلوبة
+            </span>
+            <span *ngIf="quantityInpControl.errors.pattern">
+                رقم الكمية غير صحيح
+            </span>
+        </div>
+        
+    </div>
+</ng-template>
+
+
+<app-main-table [cols]="cols" 
+    [controls]="innerControls" 
+    [tclass]="{thead:'bg-light text-primary text-center'}"
+    [data]="drugData.stocks">
+</app-main-table>

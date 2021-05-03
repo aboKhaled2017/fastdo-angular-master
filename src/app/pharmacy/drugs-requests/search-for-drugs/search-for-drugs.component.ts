@@ -15,12 +15,10 @@ import { delay } from 'rxjs/operators';
 export class SearchForDrugsComponent extends BaseDrugsRequestsComponent{
  
   cols=new Subject<ITbColModel[]>();
-  innerCols:ITbColModel[]=[];
+ 
   @ViewChild('col_2_display') col_2_display:TemplateRef<HTMLElement>;
   @ViewChild('col_3_display') col_3_display:TemplateRef<HTMLElement>;
-  @ViewChild('price_display') price_display:TemplateRef<HTMLElement>;
-  @ViewChild('discount_display') discount_display:TemplateRef<HTMLElement>;
-  @ViewChild('status_display') status_display:TemplateRef<HTMLElement>;
+
 
   private getCols():ITbColModel[]{
    return [
@@ -30,54 +28,35 @@ export class SearchForDrugsComponent extends BaseDrugsRequestsComponent{
    ];
   }
 
-  private getInnerCols():ITbColModel[]{
-    return [
-     {name:'المخزن',cols:1,propName:'stockName',classList:'notArabicFont'},
-     {name:'السعر',cols:1,propName:'price',template:this.price_display},
-     {name:'الخصم',cols:1,propName:'discount',template:this.discount_display},
-     {name:'حالة الانضمام',cols:1,propName:'isJoinedTo',template:this.status_display},
-     {name:'',cols:1,propName:null,display:true},
-    ];
-  }
+  
 
   dataList:ISearchedStkDrugResponseModel[]=[];
   dataTable:{name:string,stockCount:number,hstStk:ISearchedStkDrug_StockResponseModel}[]=[];
   stores:{id:string,name:string}[]=[];
-  packages:{id:string,name:string}[]=[];
-  selectedPackageId:string;
-  
-  constructor(public storeService:DrugsRequestsService,
+
+  constructor(public _service:DrugsRequestsService,
               public router:Router) {
-    super(storeService,router,'search');
+    super(_service,router,'search');
     this.onRefresh();
     
-    if(this.storeService.onFetchPackages.value.length==0)
-    this.storeService.getWhere({pageSize:2,pageNumber:1},'myDrugReqs');
-    
-    this.storeService.currentSelectedPackage.subscribe(e=>{
-      this.selectedPackageId=e?.original?.packageId;
-    });
+    if(this._service.onFetchPackages.value.length==0)
+       this._service.getWhere({},'myDrugReqs');
 
-    this.storeService.onFetchData.subscribe(_data=>{
+    this.subscription.push(this._service.onFetchData.subscribe(_data=>{
       this.dataList=_data;
       this.dataTable=this.mapToDataTable(_data);
-    });
-   
-    this.storeService.dataStorageService.getAllStocksNames().subscribe(_data=>{
-      this.stores=_data;
-    });
-
-   this.storeService.onFetchPackages.subscribe(_packs=>{
-    this.packages=_packs.map(e=>({
-      id:e.packageId,
-      name:e.name
     }));
-   });
+    this.subscription.push(this._service.pgService.paginator.subscribe(_pg=>{
+      if(_pg.urlName==this._service.searchDrugsPatternName)
+      this.pg=_pg;
+    }));
+    this.subscription.push(this._service.dataStorageService.getAllStocksNames().subscribe(_data=>{
+      this.stores=_data;
+    }));
   }
 
   ngAfterViewInit(): void {
     of([]).pipe(delay(0)).subscribe(()=>{
-      this.innerCols=this.getInnerCols()
       this.cols.next(this.getCols());
     });
   }
@@ -94,20 +73,13 @@ export class SearchForDrugsComponent extends BaseDrugsRequestsComponent{
     return stocks.sort((a1,a2)=>a1.discount-a2.discount)[0];
   }
 
-  onSelectedPackgChange(id:string){
-    this.storeService.setCurrentSelectedPackage(id).subscribe(()=>{},()=>{});
-  }
-
   selectedStoreChanged(storeId:string){
-    this.storeService.getWhere({stockId:storeId},'search');
+    this._service.getWhere({stockId:storeId},'search');
   }
 
   onSearchDrugChange(text:string){
     text=text?text.trim() :'';
-    this.storeService.getWhere({s:text},'search');
+    this._service.getWhere({s:text},'search');
   }
 
-  addToPackage(id:string,stockId:string,quantity:number){
-    
-  }
 }

@@ -9,11 +9,14 @@ import { PharmacyDrugsRequestsRoutingModule } from './pharmacy-drugs-requests-ro
 import { ReactiveFormsModule } from '@angular/forms';
 import { DrugsRequestsService } from './drugs-requests.service';
 import { DrugsRequestsComponent } from './drugs-requests.component';
+import { AddNewPackageComponent } from './my-drugs-requests/add-new-package/add-new-package.component';
+import { ManageCurrentPackageComponent } from './search-for-drugs/manage-current-package/manage-current-package.component';
+import { DrugsTableComponent } from './search-for-drugs/drugs-table/drugs-table.component';
 
 
 
 @NgModule({
-  declarations: [DrugsRequestsComponent,SearchForDrugsComponent, MyDrugsRequestsComponent, EditMyDrugRequestComponent],
+  declarations: [DrugsRequestsComponent,SearchForDrugsComponent, MyDrugsRequestsComponent, EditMyDrugRequestComponent, AddNewPackageComponent, ManageCurrentPackageComponent, DrugsTableComponent],
   imports: [
     CommonModule,
     SharedModule,

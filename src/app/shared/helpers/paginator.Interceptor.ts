@@ -2,7 +2,6 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } fr
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { PaginatorService } from '../services/paginator.service';
-import { IGeneralPagination } from '../models/IPagination.model';
 
 @Injectable()
 export class PaginatorInterceptor implements HttpInterceptor{
@@ -13,13 +12,18 @@ export class PaginatorInterceptor implements HttpInterceptor{
                 // And subscribe to the original observable to ensure the HttpRequest is made
                 const subscription = next.handle(req)
                   .subscribe(
-                  event => {
+                  event => {                  
                     if (event instanceof HttpResponse) {
                         if(event.headers.has('X-Pagination')){
                           var paginatorObj=event.headers.get('X-Pagination');
                           if(paginatorObj)
                           {
-                            this.paginatorService.paginator.next(JSON.parse(paginatorObj));
+                            let sInd=req.url.indexOf('/api/');
+                            let ind=req.url.indexOf('?');
+                            this.paginatorService.paginator.next({
+                              ...JSON.parse(paginatorObj),
+                              urlName:req.url.substring(sInd>-1?sInd+5:0,ind>-1?ind:req.url.length)
+                            });
                           }
                         }
                       observer.next(event);

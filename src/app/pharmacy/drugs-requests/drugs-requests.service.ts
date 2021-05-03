@@ -13,18 +13,21 @@ import { ActivatePageService } from '../../shared/services/activatedPage.service
 import { IPharmaPackage, ISelectedPackage } from './models/PharmaPackagesModel';
 import { ISearchedStkDrugResponseModel } from './models/searchedStkDrugResponse.model';
 import { ModalPopupservice } from '../../shared/services/modal.popup.service';
+import { E_drug_requestStatus } from 'src/app/shared/enums/enums';
+import { IFromStockDrugPackage } from './models/PharmaDrugpackageResponse.model';
 
 @Injectable()
 export class DrugsRequestsService{
 
-
+  searchDrugsPatternName="pharmas/stkdrugs"
+  drugsPackagePatternName="pharmas/stkdrugpackage";
   onFetchData=new Subject<ISearchedStkDrugResponseModel[]>();
   
   currentSelectedPackage=new BehaviorSubject<ISelectedPackage>(null);
-
-  private reqModel=new PageRequestModel({pageSize:2,pageNumber:1});
+  onFetchPackages=new BehaviorSubject<IPharmaPackage[]>([]);
+  private reqModel=new PageRequestModel();
   constructor(private http:HttpClient,
-              private toastService:ToastService,
+              public toastService:ToastService,
               public popupService: ModalPopupservice,
               public pgService:PaginatorService,
               public activatePageService:ActivatePageService,
@@ -36,18 +39,18 @@ export class DrugsRequestsService{
     if(type=="myDrugReqs") this.getPageOfDrugPackages(props);
   }
   private getPageOfSearchedStkDrugs(props:Partial<PageRequestModel>){
-    let model=this.reqModel.reBuild(null,props);
-    let url=model.getFullUrl('pharmas/stkdrugs');
+    this.reqModel.reBuild(null,props);
+    let url=this.reqModel.getFullUrl(this.searchDrugsPatternName);
     this.http.get(url).subscribe(data=>{
       this.onFetchData.next(data as any);
     },(err:IErrorModel)=>{
       this.toastService.showError(err.message);
     })
   }
-  onFetchPackages=new BehaviorSubject<IPharmaPackage[]>([]);
+ 
   private getPageOfDrugPackages(props:Partial<PageRequestModel>){
     let model=this.reqModel.reBuild(null,props);
-    let url=model.getFullUrl('pharmas/stkdrugpackage');
+    let url=model.getFullUrl(this.drugsPackagePatternName);
     this.http.get<IPharmaPackage[]>(url)
         .subscribe(data=>{
              this.onFetchPackages.next(data);
@@ -64,6 +67,25 @@ export class DrugsRequestsService{
     },
     (err:IErrorModel)=>{
       this.toastService.showError(err.message);
+    });
+  }
+  addNewPackage(name:string){
+    let body={
+      name,
+      fromStocks:[]
+    }
+    this.http.post(`${environment.apiUrl}/pharmas/stkdrugpackage`,body)
+    .subscribe(()=>{
+      this.toastService.showSuccess("لقد تم اضافة الطلبية بنجاح");
+     this.getPageOfDrugPackages({});
+    },
+    (err:IErrorModel)=>{
+      let message=err.message;
+      if(err.hasValidationError && err.error){
+        if(err.error['name'])message=err.error['name'][0];
+        if(err.error['g'])message=err.error['g'][0];
+      }
+      this.toastService.showError(message);
     });
   }
   getPackage(pckgId:string){
@@ -112,7 +134,9 @@ export class DrugsRequestsService{
           })
         }
         else{
-          observer.error();
+          this._setCurrentSelectedPackage(id);
+          observer.next();
+          observer.complete();
         }
       }
       else{
@@ -138,5 +162,42 @@ export class DrugsRequestsService{
         drugsList:s.drugs.map(d=>[d.id,d.quantity])
       }))
     };
+  }
+  addToCurrentPackage(drugId:string,stockId:string,quantity:number,drugName:string,stockName:string,price:number,discount:number){
+    let currentPckg=this.currentSelectedPackage.value;
+    if(!currentPckg){
+      this.toastService.showError('قم بأختيار طلبية من القائمة');
+      return;
+    }
+    let pckg=currentPckg.current;
+    let drug={
+       id:drugId,
+       name:drugName,
+       quantity:quantity,
+       price,
+       discount
+    };
+    let stock:IFromStockDrugPackage;
+    let stkInd=pckg.fromStocks.findIndex(e=>e.id==stockId);
+    if(stkInd>-1){
+      stock=pckg.fromStocks.splice(stkInd,1)[0];
+    }
+    if(stock){
+       stock.drugs.push(drug as any);
+    }
+    else{
+   stock={
+     id:stockId,
+     name:stockName,
+     status:E_drug_requestStatus.Pending,
+     seen:false,
+     drugs:[drug as any]
+   } as any;
+    }
+    pckg.fromStocks.push(stock);
+    currentPckg.current=pckg;
+    currentPckg.isChanged=true;
+    this.currentSelectedPackage.next(currentPckg);
+    this.toastService.showSuccess('تم اضافة المنتج الى الطلبية');
   }
 }

@@ -1,0 +1,15 @@
+
+<ng-template #addPackageTemp>
+    <div class="w-50">
+       <input type="text" class="form-control" 
+              [formControl]="nameInpControl"
+              placeholder="اسم الطلبية">
+    </div>
+</ng-template>
+
+
+
+<button class="btn btn-primary" (click)="onAddNew()">
+    <i class="fa fa-plus-circle"></i>
+    <span class="ml-1">اضافة طلبية جديدة</span>
+</button>

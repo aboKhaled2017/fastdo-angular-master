@@ -20,7 +20,7 @@ export class ContactUsComponent implements OnInit {
     email:[],
     subject:[]
   }
-  public isLoading=true;
+  public isLoading=false;
   constructor(private fb:FormBuilder,
               private crudService:ContactUsService,
               loaderService: LoaderService,

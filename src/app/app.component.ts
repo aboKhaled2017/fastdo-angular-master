@@ -1,5 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { ActivationEnd, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, RouteConfigLoadEnd, RouteConfigLoadStart, Router } from '@angular/router';
+import {  NavigationStart, RouteConfigLoadEnd, RouteConfigLoadStart, Router } from '@angular/router';
+import { ChatAdapter } from 'ng-chat';
+import { Subscription } from 'rxjs';
+import { TechSupportAdapter } from './shared/components/chat/adapter';
 import { User } from './shared/models/User';
 import { AuthService } from './shared/services/auth.service';
 import { CancelHttpService } from './shared/services/cancelHttp.service';
@@ -10,15 +14,20 @@ import { CancelHttpService } from './shared/services/cancelHttp.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  title = 'app';
+  
+  public adapter: ChatAdapter ;
   currentUser: User;
   loadingLazyLoadedRoute=false;
+  subscriptions:Subscription[]=[];
   constructor(
       private router: Router,
+      public techSupportChatAdapter:TechSupportAdapter,
       private cancelHttpReq:CancelHttpService,
       private authenticationService: AuthService) {
-      this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
-      //on routing lazy loaded components
-      this.router.events.subscribe(event => {
+      this.subscriptions.push(this.authenticationService.currentUser.subscribe(x => this.currentUser = x));
+
+      this.subscriptions.push(this.router.events.subscribe(event => {
         if (event instanceof RouteConfigLoadStart) {
             this.loadingLazyLoadedRoute = true;
         } else if (event instanceof RouteConfigLoadEnd) {
@@ -27,15 +36,9 @@ export class AppComponent {
         else if (event instanceof NavigationStart) {
           this.cancelHttpReq.cancelPendingRequests()
         }
-
-  /*       if (event instanceof NavigationEnd || 
-          event instanceof NavigationCancel ||
-          event instanceof NavigationError) {
-          console.log(event)
-      } */
-    });
+      }));
+    
   }
-
   get userRole() {
       return  this.currentUser?.role;
   }
@@ -43,5 +46,8 @@ export class AppComponent {
   logout() {
       this.authenticationService.logout();
       this.router.navigate(['/signin']);
+  }
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(e=>e.unsubscribe());
   }
 }

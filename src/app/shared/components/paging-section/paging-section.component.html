@@ -3,8 +3,8 @@
         <div class="col-12 col-md-7">
             <div class="d-flex flex-column">
                     <ngb-pagination class="d-flex justify-content-start" 
-                                    [collectionSize]="pg.totalCount"
-                                    [pageSize]="pg.pageSize"
+                                    [collectionSize]="pg?.totalCount || 0"
+                                    [pageSize]="pg?.pageSize || 0"
                                     (pageChange)="pageChanged($event)" 
                                     [page]="1">
                     </ngb-pagination>
@@ -12,12 +12,12 @@
                         <div class="d-flex">
                             <span class="chip">
                                 <span>اجمالى العناصر</span>
-                                <span class="badge badge-info ml-1">{{pg.totalCount}}</span>
+                                <span class="badge badge-info ml-1">{{pg?.totalCount || 0}}</span>
                             </span>
                             <span class="mx-1"></span>
                             <span class="chip">
                                 <span>اجمالى الصفحات</span>
-                                <span class="badge badge-info ml-1">{{pg.totalPages}}</span>
+                                <span class="badge badge-info ml-1">{{pg?.totalPages || 0}}</span>
                             </span>
                         </div>
                     </div>

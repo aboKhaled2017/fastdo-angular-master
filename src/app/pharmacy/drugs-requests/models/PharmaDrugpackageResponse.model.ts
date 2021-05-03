@@ -20,7 +20,7 @@ export interface IFromStockDrugPackage{
     drugs: IPharmaDrugPackage[]
     id: string
     name: string
-    seen: true
+    seen: boolean
     status: E_drug_requestStatus
     stockClassId:string
 }

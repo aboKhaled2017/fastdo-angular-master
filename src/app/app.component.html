@@ -7,4 +7,9 @@
     <div *ngIf="loadingLazyLoadedRoute" class="spinner-grow intialLoadIndicator text-primary position-fixed" role="status">
         <span class="sr-only">Loading...</span>
     </div>
+    <ng-container *ngIf="currentUser">
+        <ng-chat [adapter]="techSupportChatAdapter" title="ادارة فاست دو" [isCollapsed]="true" [persistWindowsState]="true"
+            [userId]="techSupportChatAdapter.userId">
+        </ng-chat>
+    </ng-container>
 </app-core>

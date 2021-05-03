@@ -8,7 +8,6 @@ import { BaseDrugsRequestsComponent } from '../base.component';
 import { DrugsRequestsService } from '../drugs-requests.service';
 import { IPharmaPackage } from '../models/PharmaPackagesModel';
 import { ModalPopupservice } from '../../../shared/services/modal.popup.service';
-import { IFromStockDrugPackage } from '../models/PharmaDrugpackageResponse.model';
 
 @Component({
   selector: 'app-my-drugs-requests',
@@ -18,6 +17,7 @@ import { IFromStockDrugPackage } from '../models/PharmaDrugpackageResponse.model
 export class MyDrugsRequestsComponent  extends BaseDrugsRequestsComponent{
 
   type='myDrugReqs'
+  
   cols=new Subject<ITbColModel[]>();
   innerCols:ITbColModel[]=[];
   innerOfInnerCols:ITbColModel[]=[];
@@ -30,14 +30,14 @@ export class MyDrugsRequestsComponent  extends BaseDrugsRequestsComponent{
   @ViewChild('drug_seen_display') drug_seen_display:TemplateRef<HTMLElement>;
   @ViewChild('drug_count_display') drug_count_display:TemplateRef<HTMLElement>;
   @ViewChild('drug_price_display') drug_price_display:TemplateRef<HTMLElement>;
-  constructor(public storeService:DrugsRequestsService,
+  constructor(public _service:DrugsRequestsService,
     public router:Router,
     private popupservice:ModalPopupservice,
     private route:ActivatedRoute) {
-    super(storeService,router,"myDrugReqs");
+    super(_service,router,"myDrugReqs");
     
     this.onRefresh();
-    this.storeService.onFetchPackages.subscribe(pckgs=>{
+    this.subscription.push(this._service.onFetchPackages.subscribe(pckgs=>{
       this.datatable=pckgs;
       this.datalist=pckgs.map(e=>({
         ...e,
@@ -53,8 +53,11 @@ export class MyDrugsRequestsComponent  extends BaseDrugsRequestsComponent{
           statusObj:this.getStatusText(s.status)
         }))
       }));
-    });
-   
+    }));
+   this.subscription.push(this._service.pgService.paginator.subscribe(_pg=>{
+      if(_pg.urlName==this._service.drugsPackagePatternName)
+      this.pg=_pg;
+    }));
   }
   ngAfterViewInit(): void {
     of([]).pipe(delay(0)).subscribe(()=>{
@@ -102,17 +105,17 @@ export class MyDrugsRequestsComponent  extends BaseDrugsRequestsComponent{
   }
   onSearchDrugChange(text:string){
     text=text?text.trim() :'';
-    this.storeService.getWhere({s:text},this.type);
+    this._service.getWhere({s:text},this.type);
   }
   onDelete(id:string){
     this.popupservice.openDeleteModal({
       message:'هل انت متأكد من حذف هذه الطلبية'
     }).result.then(()=>{
-      this.storeService.deletePackage(id);
+      this._service.deletePackage(id);
     }).catch(()=>{});
   }
   onEdit(id){
-    this.storeService.setCurrentSelectedPackage(id)
+    this._service.setCurrentSelectedPackage(id)
     .subscribe(()=>{
       this.router.navigate(['../edit'],{relativeTo:this.route});
     },()=>{
