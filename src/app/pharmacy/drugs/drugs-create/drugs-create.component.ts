@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Constants } from '../../../shared/constnts';
 import { LoaderService } from '../../../shared/services/loader-service.service';
@@ -9,8 +9,8 @@ import { ToastService } from '../../../shared/services/toast.service.';
 import { IErrorModel } from '../../../shared/models/Error.model';
 import { ActivatedRoute, ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { DrugsService } from '../drugs.service';
-import { delay, first, tap} from 'rxjs/operators';
-import { empty, Observable, of, Subscription } from 'rxjs';
+import { bufferTime, debounceTime, delay, first, tap} from 'rxjs/operators';
+import { fromEvent, Observable, of, Subscription } from 'rxjs';
 import { BasicUtility } from 'src/app/shared/Utilities/basic.utility';
 import { OnDeactivate } from '../../../shared/helpers/component.canDeActivate';
 import { ModalPopupservice } from 'src/app/shared/services/modal.popup.service';
@@ -23,6 +23,7 @@ import { ActivatePageService } from 'src/app/shared/services/activatedPage.servi
   providers:[DrugCreateService]
 })
 export class DrugsCreateComponent implements OnDeactivate {
+
   fg:FormGroup;
   allErrors={
     name:{required:'اسم الراكد مطلوب',g:''},
@@ -34,6 +35,7 @@ export class DrugsCreateComponent implements OnDeactivate {
     priceType:{required:'نوع سعر الراكد مطلوب',g:''},
     unitType:{required:'نوع وحدة الراكد مطلوب',g:''},
     discount:{required:'نسبة خصم الراكد مطلوب',g:''},
+    code:{required:'رقم الباركود مطلوب',g:''},
     desc:{required:'وصف الراكد مطلوب',g:''},
   }
   formChangesSubscription:Subscription=new Subscription();
@@ -44,8 +46,18 @@ export class DrugsCreateComponent implements OnDeactivate {
   liveText="";
   isEditMode=false;
   isAnyChanges=false;
+  get codeControl(){
+    return this.fg.get('code');
+  }
+  get nameControl(){
+       return this.fg.get('name');
+  }
+  get typeControl(){
+       return this.fg.get('type');
+  }
   private initForm(){
      this.fg=this.fb.group({
+      code:this.fb.control('',[Validators.required]),
       name:this.fb.control('',[Validators.required]),
       type:this.fb.control('',[Validators.required]),
       quantity:this.fb.control('',[Validators.required,Validators.pattern(Constants.numberPattern),
@@ -73,7 +85,7 @@ export class DrugsCreateComponent implements OnDeactivate {
               private route:ActivatedRoute,
               public router:Router,
               private modalService:ModalPopupservice) {
-    this.initForm();
+    this.initForm();window['f']=this.fg;
     this.liveText=drugCreateService.get_liveState_for_addDrug({});
     this.fg.valueChanges.subscribe(val=>{
       this.liveText=drugCreateService.get_liveState_for_addDrug(val);
@@ -102,7 +114,7 @@ export class DrugsCreateComponent implements OnDeactivate {
   }
   submit(){
     if(this.fg.invalid)return;
-    let _value=this.fg.value;
+    let _value=this.fg.getRawValue();
     let _date=_value['valideDate'] as Date;
     _date=new Date(_date['year'],_date['month']-1,_date['day']);
     _value['valideDate']=_date.toISOString();
@@ -161,7 +173,72 @@ export class DrugsCreateComponent implements OnDeactivate {
     });
   }
   ngAfterViewInit(): void {
+        
+  }
+  handleOnDetectCodeNumber(){
+    let toggleDisable=()=>{
+
+    }
+    this.codeControl.valueChanges.pipe(debounceTime(500)).subscribe((v:string)=>{
+      if(v&& v.trim()&&v.length>5){
+        this.drugCreateService.getMetaDataForThisDrugCode(v).subscribe(d=>{
+        if(d.name && d.name.trim()){
+          this.nameControl.setValue(d.name);
+          this.nameControl.disable();
+        }
+        else{
+           this.nameControl.enable();
+        }
+        if(d.type && d.type.trim()){
+           this.typeControl.setValue(d.type);
+           this.typeControl.disable();
+        }
+        else{
+          this.typeControl.enable();
+        }
+        if(d.hasThisDrug){
+         CommonFormUtility.setErrors({code:{g:["هذا الراكد موجود بالفعل"]}},this.allErrors,this.fg);
+        }
+      },_=>{
+          this.nameControl.enable();
+           this.typeControl.enable();
+      });
+      }
+      else{
+         this.nameControl.enable();
+        this.typeControl.enable(); 
+      }
+    });  
+  }
+  ngOnInit(): void {
+   this.handleScannerDetection();
+  this.handleOnDetectCodeNumber();  
+  }
+  handleScannerDetection(){
+    let str = '';
+    let timer = null;
+    fromEvent(document.body,'keypress').subscribe(e=>{
     
+     e.stopPropagation();
+     e.cancelBubble=true;
+    
+     if (e['key'] === 'Enter') {
+        clearTimeout(timer);
+      }
+      else{
+          str += e['key'];
+      }
+     
+      if (timer) {
+          clearTimeout(timer);
+      }
+      timer = setTimeout(() => {
+         if(str.startsWith('622')){
+            this.codeControl.setValue(str);
+         }
+          str = '';   
+      }, 100);
+    });
   }
   private resetTab(){
     this.drugsService.updateTabe.next({id:1,props:{text:'اضافة راكد',iconClass:"fa-plus-circle"}})
@@ -188,5 +265,6 @@ export class DrugsCreateComponent implements OnDeactivate {
   ngOnDestroy(): void {
     this.formChangesSubscription.unsubscribe();
   }
+  
 }
 

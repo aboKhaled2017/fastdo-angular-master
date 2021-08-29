@@ -4,8 +4,10 @@ import { BehaviorSubject, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { IErrorModel } from 'src/app/shared/models/Error.model';
 import { IPageRequestModel, PageRequestModel } from 'src/app/shared/models/Page.request.model';
-import { PharmaClass, StoreUser } from 'src/app/shared/models/User';
+import { IStockClass } from 'src/app/shared/models/StockClass.Model';
+import {StoreUser } from 'src/app/shared/models/User';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { DataStorageService } from 'src/app/shared/services/data-storage.service';
 import { LoaderService } from 'src/app/shared/services/loader-service.service';
 import { ModalPopupservice } from 'src/app/shared/services/modal.popup.service';
 import { PaginatorService } from 'src/app/shared/services/paginator.service';
@@ -18,14 +20,16 @@ export class DrugsService {
 
   reqModel=new PageRequestModel({pageNumber:1,pageSize:2});
   drugs=new BehaviorSubject<IStkDrugResponseModel[]>([]);
-  classList:PharmaClass[]=[];
+  classList:IStockClass[]=[];
   constructor(private http:HttpClient,
               public toastService:ToastService,
               public loaderService:LoaderService,
               public pagingService:PaginatorService,
-              private authService:AuthService,
+              private dataService:DataStorageService,
               public modalService:ModalPopupservice) { 
-              this.classList=(this.authService.currentUserValue as StoreUser).pharmasClasses;
+                this.dataService.getAllStockClasses().subscribe(d=>{
+                  this.classList=d;
+                });
   }
   
   getPageOfDrugs(pg:Partial<IPageRequestModel>,props?:any){
@@ -97,7 +101,7 @@ export class DrugsService {
     return of([]);
   }));
   }
-  private getClassName(classId:string,classList:PharmaClass[]){
+  private getClassName(classId:string,classList:IStockClass[]){
     return classList.find(e=>e.id==classId.toLowerCase())?.name ||'Not Unkown';
   }
   private mapDiscountToObj(obj:any):[string,number][]{

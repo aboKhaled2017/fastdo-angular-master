@@ -1,9 +1,14 @@
 import { Component } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { fromEvent, Subject, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { ISearchMenuInputSelectData } from 'src/app/shared/components/form-controls/serach-input-select/models/ISearchMenu.model';
 import { IAreaModel } from 'src/app/shared/models/IAreaModel';
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { DataStorageService } from 'src/app/shared/services/data-storage.service';
 import { LoaderService } from 'src/app/shared/services/loader-service.service';
 import { PaginatorService } from 'src/app/shared/services/paginator.service';
+import { IPharmacyShortDataModel } from '../../models/IPharmacyShortData.model';
 import { DrugSearchService } from '../drug-search.service';
 import { DrugsSearchComponent } from '../drugs-search.component';
 
@@ -14,21 +19,29 @@ import { DrugsSearchComponent } from '../drugs-search.component';
 })
 export class DrugSearchFiltersComponent extends DrugsSearchComponent {
 
-  
+  onCodeSearchChange=new Subject<string>();
+  subscriptions:Subscription[]=[];
   areas:IAreaModel[]=[];
   cities:ISearchMenuInputSelectData[]=[]
   towns:ISearchMenuInputSelectData[]=[]
+  pharmaciesData:ISearchMenuInputSelectData[]=[]
+  codeSubject=new Subject();
   private _currentSelectedCities:ISearchMenuInputSelectData[]=[];
   private _currentSelectedTowns:ISearchMenuInputSelectData[]=[];
+  private _currentSelectedPharmacies:ISearchMenuInputSelectData[]=[];
   constructor(private dataService:DataStorageService,
               private searchService:DrugSearchService,
-              public paginatorService:PaginatorService) {
+              public paginatorService:PaginatorService,
+              private authService:AuthService) {
                 super(searchService,paginatorService); 
-          dataService.getAllAreas().subscribe(data=>{
-          this.areas=data;
-          this.cities=this.getCities(this.areas);
-          this.towns=this.getTowns(this.areas);
-          });
+          this.subscriptions.push(dataService.getAllAreas().subscribe(data=>{
+            this.areas=data;
+            this.cities=this.getCities(this.areas);
+            this.towns=this.getTowns(this.areas);
+          }));
+          this.subscriptions.push(dataService.getAllPharmaciesShortData().subscribe(_data=>{
+            this.pharmaciesData=this.getPharmacies(_data.filter(e=>e.id!=authService.currentUserValue?.id));
+          }));
   }
   getCities(areas:IAreaModel[]):ISearchMenuInputSelectData[]{
     return areas.filter(a=>!a.superAreaId)
@@ -45,7 +58,20 @@ export class DrugSearchFiltersComponent extends DrugsSearchComponent {
       _superAreaId:a.superAreaId
     }));
   }
+  getPharmacies(data:IPharmacyShortDataModel[]):ISearchMenuInputSelectData[]{
+   return data.map(e=>({
+     key:e.id,
+     value:e.name
+   }));
+  }
   ngOnInit(): void {
+    this.handleScannerDetection();
+    this._handleOnCodeSearchChange();
+  }
+  private _handleOnCodeSearchChange(){
+    this.onCodeSearchChange.pipe(debounceTime(500)).subscribe(val=>{
+      this.drugSearchService.getWhere({code:(val || "").trim()})
+    });
   }
   selectedCityChanged(data:ISearchMenuInputSelectData[]){
     this._currentSelectedCities=data;
@@ -73,5 +99,41 @@ export class DrugSearchFiltersComponent extends DrugsSearchComponent {
   onSearchChange(value:string){
   this.drugSearchService.getWhere({s:(value || "").trim()})
   }
-
+  onCodeNumberChange(value:string){
+    this.onCodeSearchChange.next(value);
+  }
+  selectedPharmacyChanged(data:ISearchMenuInputSelectData[]){
+    this._currentSelectedPharmacies=data;
+    let ids=data.length<1?"":data.map(t=>t.key).join(',');
+    this.drugSearchService.getWhere({'InPharmasIds':ids});
+  }
+  ngOnDestroy(): void {
+   this.subscriptions.forEach(e=>e.unsubscribe());
+  }
+  handleScannerDetection(){
+    let str = '';
+    let timer = null;
+    fromEvent(document.body,'keypress').subscribe(e=>{
+    
+     e.stopPropagation();
+     e.cancelBubble=true;
+    
+     if (e['key'] === 'Enter') {
+        clearTimeout(timer);
+      }
+      else{
+          str += e['key'];
+      }
+     
+      if (timer) {
+          clearTimeout(timer);
+      }
+      timer = setTimeout(() => {
+         if(str.startsWith('622')){
+            this.codeSubject.next(str);
+         }
+          str = '';   
+      }, 100);
+    });
+  }
 }

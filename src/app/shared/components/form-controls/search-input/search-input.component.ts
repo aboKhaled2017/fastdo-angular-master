@@ -1,4 +1,6 @@
+import { Renderer2 } from '@angular/core';
 import { Component, ElementRef, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { from, fromEvent, of, Subject } from 'rxjs';
 import { debounceTime, mergeMap } from 'rxjs/operators';
 
@@ -15,11 +17,24 @@ export class SearchInputComponent implements OnInit {
   @ViewChild('input') input:ElementRef<HTMLInputElement>;
   @ViewChild('close') closeEl:ElementRef<HTMLElement>;
   @ViewChild('input_wapper') inputWapperEl:ElementRef<HTMLElement>;
+  @Input('fc') fc:FormControl=new FormControl('');
+  @Input('subject') subject :Subject<string>; 
+  @Input('isArabicFont') isArabicFont=false;
   labelInBody=true;
-  constructor() { }
+  constructor(private dom:Renderer2) { }
 
-  ngOnInit(): void {
-    
+  ngOnInit(): void {console.log(this.isArabicFont)
+    if(this.subject){
+      this.subject.subscribe(v=>{
+        
+        
+        //this.input.nativeElement.value="";
+       // this.fc.setValue(v)
+        this.input.nativeElement.value=v;
+        this.input.nativeElement.focus();
+        this.textChanged.next(v);
+      });
+    }
   }
   ngAfterViewInit(): void {
     from(['focus','blur','keyup'])

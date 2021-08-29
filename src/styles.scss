@@ -1,7 +1,8 @@
 /* @import '../node_modules/bootstrap-v4-rtl/dist/css/bootstrap.min.css'; */
 
 @import "./assets/Icons/scss/font-awesome.scss";
-@import "../node_modules/bootstrap-v4-rtl/dist/css/bootstrap-rtl.min.css";
+//@import "../node_modules/bootstrap-v4-rtl/dist/css/bootstrap-rtl.min.css";
+@import "./app/scss/bootstrap/greenTheme.scss";
 @fa-font-path: './assets/Icons/fonts';
 @font-face {
   font-family: "arabic_font";
@@ -35,7 +36,7 @@ code {
   font-family: arabic_font !important;
 }
 .notArabicFont {
-  font-family: initial;
+  font-family: initial !important;
 }
 html,
 body {

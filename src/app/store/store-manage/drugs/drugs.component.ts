@@ -3,11 +3,11 @@ import { of, Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { ITbColModel } from 'src/app/shared/components/main-table/models/col.model';
 import { IGeneralPagination } from 'src/app/shared/models/IPagination.model';
-import { PharmaClass } from 'src/app/shared/models/User';
 import { IStkDrugResponseModel } from '../../models/IStockDrugResponse.model';
 import { DrugsService } from './drugs.service';
 import { BasicUtility } from 'src/app/shared/Utilities/basic.utility';
 import { Constants } from 'src/app/shared/constnts';
+import { IStockClass } from 'src/app/shared/models/StockClass.Model';
 
 @Component({
   selector: 'app-drugs',
@@ -22,7 +22,7 @@ export class DrugsComponent  {
   loading=false;
   pg:IGeneralPagination;
   _datalist:IStkDrugResponseModel[]=[];
-  classes:PharmaClass[]=[];
+  classes:IStockClass[]=[];
   mappedDataList:Partial<IStkDrugResponseModel>[]=[];
   cols:ITbColModel[]=[];
   constructor(private _service:DrugsService) {  

@@ -1,9 +1,12 @@
-import { Component, NgModuleRef, TemplateRef, ViewChild } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Subscription } from 'rxjs';
+import { of, Subscription } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { ITbColModel } from 'src/app/shared/components/main-table/models/col.model';
-import { PharmaClass, StoreUser } from 'src/app/shared/models/User';
+import { CustomValidators } from 'src/app/shared/helpers/customValidators';
+import { IStockClass } from 'src/app/shared/models/StockClass.Model';
+import { LoaderService } from 'src/app/shared/services/loader-service.service';
 import { ClassesService } from './classes.service';
 
 @Component({
@@ -15,27 +18,30 @@ import { ClassesService } from './classes.service';
 export class ClassesComponent {
   @ViewChild('removeClassTemplate') removeClassTemplate:TemplateRef<HTMLElement>;
   @ViewChild('editClassTemplate') editClassTemplate:TemplateRef<HTMLElement>;
-  cols:ITbColModel[];
+  @ViewChild('editDiscountTemplate') editDiscountTemplate:TemplateRef<HTMLElement>;
+  @ViewChild('discount_offer') discount_offerTemplate:TemplateRef<HTMLElement>;
+  cols:ITbColModel[]=[];
   loading=false;
   addNewClass=false;
   markedIdAsDeleted:string;
   relplacedClassId:string;
   replaceClassName="";
-  pharmaClasses:PharmaClass[]=[];
-  _pharmaClasses:PharmaClass[]=[];
+  pharmaClasses:IStockClass[]=[];
+  _pharmaClasses:IStockClass[]=[];
   classNameControl=new FormControl('',[Validators.required]);
-  replaceClassNameControl=new FormControl('',[Validators.required]);
+  replaceClassNameInpCtrl=new FormControl('',[Validators.required]);
+  discountInpCtrl=new FormControl('',[Validators.required]);
   subscriptions:Subscription[]=[];
   _model:NgbModalRef;
   private getCols():ITbColModel[]{
    return [
     {name:'اسم التصنيف',cols:1,propName:'name'},
+    {name:'عرض الخصم',cols:1,propName:'discount',template:this.discount_offerTemplate},
     {name:'عدد الصيدليات التابعة لهذا التصنيف',cols:1,propName:'count'},
     {name:'التحكم',cols:1,propName:null,display:true},
   ];
   }
-  constructor(private _service:ClassesService) { 
-    this.cols=this.getCols();
+  constructor(private _service:ClassesService,private _loaderService:LoaderService) { 
     this.subscriptions.push(
       this._service.classesList.subscribe(data=>{
         this._pharmaClasses=data;
@@ -48,6 +54,7 @@ export class ClassesComponent {
     this.subscriptions.push(this._service.loaderService.isLoading.subscribe(e=>{
       this.loading=e;
     }));
+   // this.subscriptions.push(_loaderService.isLoading.subscribe(e=>{this.loading=e}));
   }
   private _getCountOfPharmas(count:number){
     if(count==0)return "لايوجد";
@@ -68,6 +75,7 @@ export class ClassesComponent {
   }
   onDelete(id:string){
   let _class=this._pharmaClasses.find(e=>e.id==id);
+
   if(!_class)return;
    let message="هل انت متأكد من حذف هذا التصنيف";
    this.markedIdAsDeleted=_class.id;
@@ -76,12 +84,18 @@ export class ClassesComponent {
    this._model= this._service.popupService.openDeleteModal({...modalOptions});
    this._model
    .result.then(()=>{
-     this._service.removeClass({
+      if(_class.count>0 && !this.relplacedClassId){
+       this._service.toastService.showError('اختر التصنيف البديل');
+      }
+      else{
+         this._service.removeClass({
        deletedClassId:_class.id,
        replaceClassId:this.relplacedClassId || ''
      });
-     this.relplacedClassId='';
      this.markedIdAsDeleted=undefined;
+      }
+     this.relplacedClassId='';
+     
    })
    .catch(()=>{});
   }
@@ -91,20 +105,46 @@ export class ClassesComponent {
     let message="تعديل التصنيف";
     this.markedIdAsDeleted=_class.id;
     let modalOptions:any={message};
-    if(_class.count==0) modalOptions.template=this.editClassTemplate;
+    modalOptions.template=this.editClassTemplate;
     this._model= this._service.popupService.openDeleteModal({...modalOptions});
     this._model
-    .result.then(newClass=>{
-      if(newClass && newClass !=_class.name){
+    .result.then(_=>{
+      let _name=this.replaceClassNameInpCtrl.value;
+      if( _name &&  _name !=_class.name){
         this._service.updateClass({
-          newClass,
+          newClass: _name,
           oldClass:_class.name
         });
+        this.replaceClassNameInpCtrl.reset();
         this.markedIdAsDeleted=undefined; 
       }
     })
     .catch(()=>{
-      alert('closed')
+      console.log('closed')
+    });
+  }
+  onDiscountEdit(id:string){
+    let _class=this._pharmaClasses.find(e=>e.id==id);
+    if(!_class)return;
+    let message=`تحديد نسبة الخصم للتصنيف (${_class.name})`;
+    this.markedIdAsDeleted=_class.id;
+    let modalOptions:any={message};
+    modalOptions.template=this.editDiscountTemplate;
+    this._model= this._service.popupService.openDeleteModal({...modalOptions});
+    this._model
+    .result.then(_=>{
+      let _discountVal=this.discountInpCtrl.value;
+      if( _discountVal &&  parseInt(_discountVal)>0 && _discountVal!=_class.discount){
+        this._service.updateClassDiscount({
+          classId: _class.id,
+          discount:_discountVal
+        });
+        this.discountInpCtrl.reset();
+        this.markedIdAsDeleted=undefined; 
+      }
+    })
+    .catch(()=>{
+      console.log('closed')
     });
   }
   onSelectedreplacedClass(id:string){
@@ -113,10 +153,12 @@ export class ClassesComponent {
   onSaveReplaceName(name:string){
    this.replaceClassName=name;
   }
-  onEditSaved(newClass:string){
-   this._model.close(newClass);
-  }
   ngOnDestroy(): void {
     this.subscriptions.forEach(e=>e.unsubscribe());
+  }
+  ngAfterViewInit(): void {
+    of([]).pipe(delay(0)).subscribe(()=>{
+      this.cols=this.getCols();
+    });
   }
 }

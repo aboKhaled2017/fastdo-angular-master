@@ -2,7 +2,8 @@
 <ng-template #removeClassTemplate>
     <div class="text-center">
         <h6 class="text-primary">اختر اسم التصنيف البديل</h6>
-        <select #s class="form-control-sm py-2 mt-1" (change)="onSelectedreplacedClass(s.value)">
+        <select #s class="form-control py-2 mt-1" (change)="onSelectedreplacedClass(s.value)">
+            <option value="">اختر التصنيف البديل</option>
             <option *ngFor="let o of getSelectClassDropdown()" [value]="o.id">{{o.name}}</option>
         </select>
     </div>
@@ -10,8 +11,31 @@
 
 <ng-template #editClassTemplate>
     <div class="">
-        <app-edit-class [options]="getSelectClassDropdown()"
-                        (onSave)="onEditSaved($event)"   [selectInpEnabled]="false"></app-edit-class>
+        <app-edit-class
+                        [newClassInpCtrl]="replaceClassNameInpCtrl"
+                        [selectInpEnabled]="false">
+        </app-edit-class>
+    </div>
+</ng-template>
+<ng-template #editDiscountTemplate>
+    <div class="">
+        <app-edit-discount
+                        [discountInpCtrl]="discountInpCtrl">
+        </app-edit-discount>
+    </div>
+</ng-template>
+
+<ng-template #discount_offer let-discount="discount" let-id="id">
+    <div class="d-flex justify-content-center align-items-center">
+        <div>
+          <span class="badge badge-secondary" *ngIf="!discount">لا يوجد عرض خصم</span>
+          <span class="badge badge-primary" *ngIf="!!discount">{{discount}} %</span>
+        </div>
+        <div class="ml-1">
+            <button (click)="onDiscountEdit(id)" class="btn btn-info btn-sm shadow">
+                تعديل نسبة الخصم
+            </button>
+        </div>
     </div>
 </ng-template>
 

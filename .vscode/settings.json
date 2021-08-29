@@ -16,13 +16,16 @@
         ".browserslistrc": true,
         "**/*.md":true,
         "karma.conf.js":true,
-        "node_modules":true,
-        "**/*favicon.ico":true,
-        "**/*index.html": true,
-        "**/*main.ts": true,
-        "**/*polyfills.ts": true,
         "**/*test.ts": true,
-        "**/*angular.json": true,
-        "**/*bootstrap.css": true
+        "node_modules":true,
+        "dist":true,
+        "production":true,
+        "**/*favicon.ico":true,
+        "**/*polyfills.ts": true,
+
+        // "**/*index.html": true,
+        // "**/*main.ts": true,
+        // "**/*angular.json": true,
+        // "**/*bootstrap.css": true
     }
 }

@@ -15,11 +15,12 @@ import { EditClassComponent } from './store-manage/classes/edit-class/edit-class
 import { PharmaRequestCardComponent } from './store-manage/pharmas-requests/pharma-request-card/pharma-request-card.component';
 import { PharmaCardComponent } from './store-manage/pharmas/pharma-card/pharma-card.component';
 import { AddDrugListComponent } from './store-manage/drugs/add-drug-list/add-drug-list.component';
+import { EditDiscountComponent } from './store-manage/classes/edit-discount/edit-discount.component';
 
 
 
 @NgModule({
-  declarations: [ StoreManageComponent, StoreRequestsDrugsComponent, StoreRequestsDrugCardComponent, DrugsComponent, PharmasComponent, PharmasRequestsComponent, ClassesComponent, EditClassComponent, PharmaRequestCardComponent, PharmaCardComponent, AddDrugListComponent],
+  declarations: [ StoreManageComponent, StoreRequestsDrugsComponent, StoreRequestsDrugCardComponent, DrugsComponent, PharmasComponent, PharmasRequestsComponent, ClassesComponent, EditClassComponent, PharmaRequestCardComponent, PharmaCardComponent, AddDrugListComponent, EditDiscountComponent],
   imports: [
     CommonModule,
     StoreRoutingModule,

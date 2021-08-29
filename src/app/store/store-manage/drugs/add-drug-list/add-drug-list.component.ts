@@ -1,6 +1,6 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { PharmaClass } from 'src/app/shared/models/User';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { IStockClass } from 'src/app/shared/models/StockClass.Model';
 import { DrugsService } from '../drugs.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class AddDrugListComponent  {
 
   @ViewChild('uploadFileTemp') uploadFileTemp:TemplateRef<HTMLElement>;
   private _modal:NgbModalRef;
-  classes:PharmaClass[];
+  classes:IStockClass[];
   selectedFile:File;
   selectedClassId:string;
   private _btnPlaceHolder="رفع ملف ادوية";

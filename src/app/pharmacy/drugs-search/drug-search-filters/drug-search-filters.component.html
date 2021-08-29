@@ -5,6 +5,19 @@
         </app-search-input>
     </div>
     <div class="mt-3">
+        <app-serach-input-select (selectChange)="selectedPharmacyChanged($event)" 
+                                label="ابحث باسم الصيدلية" 
+                                [data]="pharmaciesData">
+        </app-serach-input-select>
+    </div>
+    <div class="mt-3">
+        <app-search-input label="ابحث برقم الباركود" 
+                          [subject]="codeSubject"
+                          [isArabicFont]="true"
+                          (textChanged)="onCodeNumberChange($event)">
+        </app-search-input>
+    </div>
+    <div class="mt-3">
         <app-serach-input-select (selectChange)="selectedCityChanged($event)"
                                  label="ابحث فى محافظة معينة"
                                  [data]="cities">

@@ -30,7 +30,9 @@
     <div class="inp-wrapper position-relative text-left">
         <div class="inp-outer w-100">
             <span (click)="input.focus()" *ngIf="labelInBody" class="inp-label">{{label}}</span>
-            <input #input type="text" class=""/>
+            <input #input type="text" 
+                   class="" 
+                   [ngClass]="{'notArabicFont':isArabicFont}"/>
         </div>
     </div>
     <ng-container *ngTemplateOutlet="left_btn"></ng-container> 

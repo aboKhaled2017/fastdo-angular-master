@@ -1,0 +1,8 @@
+<div class="w-75">
+    <form *ngIf="form" [formGroup]="form" class="m-auto">
+        <div class="form-group mt-1">
+            <input type="number" class="form-control" placeholder="نسبة الخصم (نسبة مئوبة من 1 - 100)"
+                formControlName="discount">
+        </div>
+    </form>
+</div>

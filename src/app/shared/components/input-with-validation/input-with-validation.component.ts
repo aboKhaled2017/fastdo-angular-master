@@ -9,10 +9,12 @@ import { FormControl } from '@angular/forms';
 export class InputWithValidationComponent implements OnInit {
 
   @Input('type') type='text';
+  @Input('isArabicFont') isArabicFont=false;
   @Input('control') c:FormControl;
   @Input() placeholder:string;
   @Input('errors') errors:{[key:string]:string}
   @Input('options') options:{value:string,title:string}[]
+  @Input('autofocus') autofocus=false;
   constructor() {}
 
   ngOnInit(): void {

@@ -20,6 +20,7 @@ export class TechSupportAdapter extends ChatAdapter implements IChatGroupAdapter
  onFetchMessagesHistory=new Subject<Message[]>();
  currentUser:User;
  isApiCalled=false;
+ tryToConnectCount=0;
   private hubConnection: signalR.HubConnection
 
     constructor(private http: HttpClient,private authService:AuthService,private toastService:ToastService) {
@@ -46,12 +47,17 @@ export class TechSupportAdapter extends ChatAdapter implements IChatGroupAdapter
         .start()
         .then(() => {
             this.initializeListeners();
-            console.log('connected to signalR') 
+            //console.log('connected to signalR') 
         })
         .catch(err=>{
-            this.toastService.showError(`Error while starting SignalR connection: ${err}`);
+            console.log(err);
+            console.log('trying to connect again');
+            if(this.tryToConnectCount<5){
+                this.tryToConnectCount++;
+                this.initializeConnection();
+            }
+            //this.toastService.showError(`Error while starting SignalR connection: ${err}`);
         });
-        window['hub']=this.hubConnection;
     }
 
     private initializeListeners(): void {
@@ -71,10 +77,6 @@ export class TechSupportAdapter extends ChatAdapter implements IChatGroupAdapter
         });
 
         this.hubConnection.on("onResponseForQuestion", (q:IGetTechQuesViewModel) => {
-            console.log('origninal question')
-           // console.log(question)
-            console.log('response question')
-            console.log(q)
             let replyMessage = new Message();
 
             replyMessage.message = q.message;
@@ -110,8 +112,7 @@ export class TechSupportAdapter extends ChatAdapter implements IChatGroupAdapter
         }));
     }
 
-    getMessageHistory(destinataryId: any): Observable<Message[]> {
-        console.log('from message historey')     
+    getMessageHistory(destinataryId: any): Observable<Message[]> { 
         return this.onFetchMessagesHistory;
     }
 
@@ -121,11 +122,11 @@ export class TechSupportAdapter extends ChatAdapter implements IChatGroupAdapter
         {
             this.hubConnection.invoke('onCustomerSendMessage',message.message)
             .then(()=>{
-                this.toastService.showSuccess('تم ارسال رسالتك بجاح للدعم الفنى');
+                //this.toastService.showSuccess('تم ارسال رسالتك بجاح للدعم الفنى');
             })
         .catch(err=>{
             console.log(err)
-            this.toastService.showError("لقد فشل الارسال حاول مرة اخرى")
+            //this.toastService.showError("لقد فشل الارسال حاول مرة اخرى")
         });
         }
     }

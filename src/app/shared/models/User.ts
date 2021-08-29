@@ -40,15 +40,8 @@ export class StoreUser extends User{
     constructor(user:any){
         super(user);
         this.role=Role.store;
-        this.pharmasClasses=user.pharmasClasses;
       }
-   pharmasClasses:PharmaClass[]
 }
 export class AdminUser extends User{
 
-}
-export interface PharmaClass{
- id:string 
- name:string 
- count:number
 }

@@ -1,15 +1,14 @@
-@import '../../../scss/variables';
-table{
-    &.table{
-        thead th{
-            border: 2px solid #dee2e6;
-        }
+@import "../../../scss/bootstrap/variables";
+table {
+  &.table {
+    thead th {
+      border: 2px solid #dee2e6;
     }
-    thead{
-       background: $primary;
-       color:#fff;
-    }
-    tbody{
-        
-    }
+  }
+  thead {
+    background: $primary;
+    color: #fff;
+  }
+  tbody {
+  }
 }

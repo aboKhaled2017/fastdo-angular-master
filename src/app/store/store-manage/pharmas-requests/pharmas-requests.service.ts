@@ -5,8 +5,10 @@ import { catchError, tap } from 'rxjs/operators';
 import { E_PharmacyRequestStatus } from 'src/app/shared/enums/enums';
 import { IErrorModel } from 'src/app/shared/models/Error.model';
 import { IPageRequestModel, PageRequestModel } from 'src/app/shared/models/Page.request.model';
-import { PharmaClass, StoreUser } from 'src/app/shared/models/User';
+import { IStockClass } from 'src/app/shared/models/StockClass.Model';
+import { StoreUser } from 'src/app/shared/models/User';
 import { AuthService } from 'src/app/shared/services/auth.service';
+import { DataStorageService } from 'src/app/shared/services/data-storage.service';
 import { LoaderService } from 'src/app/shared/services/loader-service.service';
 import { PaginatorService } from 'src/app/shared/services/paginator.service';
 import { ToastService } from 'src/app/shared/services/toast.service.';
@@ -18,13 +20,15 @@ export class PharmasRequestsService {
 
   reqModel=new PageRequestModel({pageNumber:1,pageSize:2});
   pharmas=new BehaviorSubject<IPharmaRequest[]>([]);
-  classList:PharmaClass[]=[];
+  classList:IStockClass[]=[];
   constructor(private http:HttpClient,
               private toastService:ToastService,
               public loaderService:LoaderService,
               public pagingService:PaginatorService,
-              private authService:AuthService) { 
-              this.classList=(this.authService.currentUserValue as StoreUser).pharmasClasses;
+              private dataService:DataStorageService) { 
+              dataService.getAllStockClasses().subscribe(v=>{
+                this.classList=v;
+              })
   }
   
   getPageOfPharmaRequests(pg:Partial<IPageRequestModel>,props?:any){

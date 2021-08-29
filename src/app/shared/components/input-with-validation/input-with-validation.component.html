@@ -17,8 +17,9 @@
 <ng-template #input>
     <input [type]="type" class="form-control"
            [formControl]="c"
+           [autofocus]="autofocus"
            [ngClass]="{'border-danger':c.touched && c.invalid}"
-           [appTrackArabicText]="type=='number'?c:null"
+           [appTrackArabicText]="isArabicFont?c:null"
            [placeholder]="placeholder">
     <div class="text-danger" *ngIf="c.touched && c.invalid">
         <span *ngIf="c.errors.required">

@@ -4,11 +4,12 @@
 
 export const environment = {
   production: false,
-  //apiUrl:"http://www.backend.fastdo.co/api"
-  apiUrl:"http://localhost:10/api",
-  //apiUrl:'https://localhost:5001/api',
-  techSupportChatHubUrl:"http://localhost:10/hub/techsupport",
- // techSupportChatHubUrl:"https://localhost:5001/hub/techsupport"
+  //apiUrl:"http://www.backend.fastdo.co/api",
+  //apiUrl:"http://localhost:10/api",
+  apiUrl:'https://localhost:5001/api',
+  //techSupportChatHubUrl:"http://localhost:10/hub/techsupport",
+  techSupportChatHubUrl:"https://localhost:5001/hub/techsupport",
+  //techSupportChatHubUrl:"http://www.backend.fastdo.co/hub/techsupport"
 };
 
 /*

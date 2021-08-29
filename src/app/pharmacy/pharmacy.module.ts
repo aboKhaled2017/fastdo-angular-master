@@ -17,7 +17,7 @@ import { RequestedStoresComponent } from './my-stores/requested-stores/requested
     PharmacyRoutingModule,
     ReactiveFormsModule,
     SharedModule,  
-    NgbPaginationModule,
+    NgbPaginationModule
   ],
   providers:[PharmacyStoreGuard]
 })

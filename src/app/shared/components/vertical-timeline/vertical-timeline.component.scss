@@ -1,165 +1,172 @@
-@import './../../../scss/variables';
+@import "./../../../scss/bootstrap/variables";
 
 @mixin keyframes($animation-name) {
-    @-webkit-keyframes #{$animation-name} {
-      @content;
-    }
-    @-moz-keyframes #{$animation-name} {
-      @content;
-    }  
-    @-ms-keyframes #{$animation-name} {
-      @content;
-    }
-    @-o-keyframes #{$animation-name} {
-      @content;
-    }  
-    @keyframes #{$animation-name} {
-      @content;
-    }
+  @-webkit-keyframes #{$animation-name} {
+    @content;
+  }
+  @-moz-keyframes #{$animation-name} {
+    @content;
+  }
+  @-ms-keyframes #{$animation-name} {
+    @content;
+  }
+  @-o-keyframes #{$animation-name} {
+    @content;
+  }
+  @keyframes #{$animation-name} {
+    @content;
+  }
 }
 @include keyframes(faltIcon) {
-    0% {box-shadow: 0px 1px 20px #007bff}
-    50% {box-shadow: 0px 1px 30px #007bff}
-    100% {box-shadow: 0px 1px 40px #007bff}
+  0% {
+    box-shadow: 0px 1px 20px #007bff;
   }
-@keyframes anim{
-   
+  50% {
+    box-shadow: 0px 1px 30px #007bff;
+  }
+  100% {
+    box-shadow: 0px 1px 40px #007bff;
+  }
+}
+@keyframes anim {
 }
 
 .bs-vertical-wizard {
-    padding-bottom: 50px;
-    ul {
-        margin: 0;
-        padding: 0;
-        list-style: none;
-        &>li {
-            height: 70px;
-            display: block;
-            position: relative;
-            &:last-child{
-                &>.step-item-span{
-                    &:before {display:none;}
-                }
-            }
-
-            &.complete{
-                &>.step-item-span{
-                    &:before {
-                        background-color: $primary;
-                        opacity: 1;
-                        height: calc(100% - 25px);
-                        bottom: -9px;
-                    }
-                    &:after {
-                        border-color: $primary;
-                    }
-                    .ico {
-                         
-                    }
-                }
-            }
-            &.locked{
-                &>.step-item-span{
-                    &:after {display:none;}
-                }
-            }
-            &.current{
-                background-color: #fff;
-                &>.step-item-span{
-                    &:before {
-                        background-color: #6c757d;
-                        opacity: 1;
-                    }
-                    &:after {
-                        border-color: #6c757d;
-                        background-color: #dee2e6;
-                        opacity: 1;
-                    }
-                    .ico{
-                        pointer-events: none;
-                        font-size: 20px;
-                        position: absolute;
-                        right: 4.2px;
-                        top: 11px;
-                        z-index: 4;
-                        color: #adb5bd;
-                        /* animation:animation('faltIcon 1s 3') */
-                        animation-name: faltIcon;
-                        animation-duration: 0.7s;
-                        animation-timing-function: linear;
-                        animation-iteration-count: infinite;
-                    }
-                }
-                &:after {
-                    border-color: rgba(255,255,255,0);
-                    border-right-color: #fff;
-                    border-width: 10px;
-                    margin-top: -10px;
-                }
-                &:before {
-                    border-color: rgba(234,236,241,0);
-                    border-right-color: #eaecf1;
-                    border-width: 11px;
-                    margin-top: -11px;
-                }
-                &:after,&:before{
-                    right: 100%;
-                    top: 50%;
-                    border: solid transparent;
-                    content: " ";
-                    height: 0;
-                    width: 0;
-                    position: absolute;
-                    pointer-events: none;
-                }
-            }
-            &>.step-item-span {
-                display: block;
-                padding: 10px 40px 10px 10px;
-                color: #333c4e;
-                font-size: 15px;
-                font-weight: 400;
-                letter-spacing: .8px;
-                text-decoration: none;
-                &:before {
-                    content: '';
-                    position: absolute;
-                    width: 1px;
-                    height: calc(100% - 25px);
-                    background-color: #bdc2ce;
-                    right: 13px;
-                    bottom: -9px;
-                    z-index: 3;
-                }
-                &:after {
-                    content: "";
-                    position: absolute;
-                    border: 2px solid #bdc2ce;
-                    border-radius: 50%;
-                    top: 7px;
-                    right: 0px;
-                    width: 28px;
-                    height: 28px;
-                    z-index: 3;
-                }
-                
-                .ico {
-                    pointer-events: none;
-                    font-size: 20px;
-                    position: absolute;
-                    right: 3px;
-                    top: 10px;
-                    z-index: 2;
-                    &.ico-green {
-                        color: $primary;
-                    }
-                    &.ico-muted {
-                        color: #bdc2ce;
-                    }
-                }
-            }
-            
+  padding-bottom: 50px;
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    & > li {
+      height: 70px;
+      display: block;
+      position: relative;
+      &:last-child {
+        & > .step-item-span {
+          &:before {
+            display: none;
+          }
         }
-    }
-}
+      }
 
+      &.complete {
+        & > .step-item-span {
+          &:before {
+            background-color: $primary;
+            opacity: 1;
+            height: calc(100% - 25px);
+            bottom: -9px;
+          }
+          &:after {
+            border-color: $primary;
+          }
+          .ico {
+          }
+        }
+      }
+      &.locked {
+        & > .step-item-span {
+          &:after {
+            display: none;
+          }
+        }
+      }
+      &.current {
+        background-color: #fff;
+        & > .step-item-span {
+          &:before {
+            background-color: #6c757d;
+            opacity: 1;
+          }
+          &:after {
+            border-color: #6c757d;
+            background-color: #dee2e6;
+            opacity: 1;
+          }
+          .ico {
+            pointer-events: none;
+            font-size: 20px;
+            position: absolute;
+            right: 4.2px;
+            top: 11px;
+            z-index: 4;
+            color: #adb5bd;
+            /* animation:animation('faltIcon 1s 3') */
+            animation-name: faltIcon;
+            animation-duration: 0.7s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+          }
+        }
+        &:after {
+          border-color: rgba(255, 255, 255, 0);
+          border-right-color: #fff;
+          border-width: 10px;
+          margin-top: -10px;
+        }
+        &:before {
+          border-color: rgba(234, 236, 241, 0);
+          border-right-color: #eaecf1;
+          border-width: 11px;
+          margin-top: -11px;
+        }
+        &:after,
+        &:before {
+          right: 100%;
+          top: 50%;
+          border: solid transparent;
+          content: " ";
+          height: 0;
+          width: 0;
+          position: absolute;
+          pointer-events: none;
+        }
+      }
+      & > .step-item-span {
+        display: block;
+        padding: 10px 40px 10px 10px;
+        color: #333c4e;
+        font-size: 15px;
+        font-weight: 400;
+        letter-spacing: 0.8px;
+        text-decoration: none;
+        &:before {
+          content: "";
+          position: absolute;
+          width: 1px;
+          height: calc(100% - 25px);
+          background-color: #bdc2ce;
+          right: 13px;
+          bottom: -9px;
+          z-index: 3;
+        }
+        &:after {
+          content: "";
+          position: absolute;
+          border: 2px solid #bdc2ce;
+          border-radius: 50%;
+          top: 7px;
+          right: 0px;
+          width: 28px;
+          height: 28px;
+          z-index: 3;
+        }
+
+        .ico {
+          pointer-events: none;
+          font-size: 20px;
+          position: absolute;
+          right: 3px;
+          top: 10px;
+          z-index: 2;
+          &.ico-green {
+            color: $primary;
+          }
+          &.ico-muted {
+            color: #bdc2ce;
+          }
+        }
+      }
+    }
+  }
+}

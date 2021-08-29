@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 import { IGeneralPagination } from 'src/app/shared/models/IPagination.model';
-import { PharmaClass } from 'src/app/shared/models/User';
+import { IStockClass } from 'src/app/shared/models/StockClass.Model';
 import { IPharmaResponseModel } from '../../models/IPharmaResponseModel.model';
 import { MyPharmasServiceService } from './my-pharmas-service.service';
 
@@ -19,7 +19,7 @@ export class PharmasComponent  {
   loading=false;
   pg:IGeneralPagination;
   _datalist:IPharmaResponseModel[]=[];
-   options:PharmaClass[]=[];
+   options:IStockClass[]=[];
   mappedDataList:Partial<IPharmaResponseModel>[]=[];
   constructor(private _service:MyPharmasServiceService) { 
     this.subscription.push(

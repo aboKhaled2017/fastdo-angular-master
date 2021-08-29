@@ -6,6 +6,7 @@ import { CommonHttpUtility } from 'src/app/shared/Utilities/http.utility';
 import { environment } from 'src/environments/environment';
 import { DrugRequestModel, IDrugRequestModel } from '../drugs/Models/drugRequest.model';
 import { IDrugSearchModel } from '../models/DrugSearchModel';
+import { IPharmacyShortDataModel } from '../models/IPharmacyShortData.model';
 
 @Injectable()
 export class DrugSearchService {
@@ -13,7 +14,7 @@ export class DrugSearchService {
   loading=new Subject<boolean>();
   lastPageOfData:IDrugSearchModel[]=[];
   onFetchData=new Subject<IDrugSearchModel[]>();
-  private reqModel=new DrugRequestModel({pageSize:2,currentPage:1});
+  private reqModel=new DrugRequestModel({pageSize:20});
   getWhere(props:Partial<DrugRequestModel>){
     this.getPage(this.reqModel.reBuild(null,props));
   }

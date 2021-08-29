@@ -1,9 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
-import { E_PharmacyRequestStatus } from 'src/app/shared/enums/enums';
 import { IGeneralPagination } from 'src/app/shared/models/IPagination.model';
-import { PharmaClass } from 'src/app/shared/models/User';
-import { IPharmaRequest, IPharmaRequestDetails } from '../../models/IPharmaRequest.model';
+import { IStockClass } from 'src/app/shared/models/StockClass.Model';
+import { IPharmaRequest } from '../../models/IPharmaRequest.model';
 import { PharmasRequestsService } from './pharmas-requests.service';
 
 @Component({
@@ -19,7 +18,7 @@ export class PharmasRequestsComponent  {
   loading=false;
   pg:IGeneralPagination;
   _datalist:IPharmaRequest[]=[];
-   options:PharmaClass[]=[];
+   options:IStockClass[]=[];
   mappedDataList:Partial<IPharmaRequest>[]=[];
   constructor(private _service:PharmasRequestsService) { 
     this.subscription.push(

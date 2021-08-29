@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Constants } from '../../../shared/constnts';
+import { IDrugMetaData } from '../Models/DrugMetaData.Model';
 import { IDrugModel } from '../Models/DrugModel';
 
 @Injectable()
@@ -18,4 +19,7 @@ export class DrugCreateService {
   updateDrug(model:IDrugModel){
     return this.http.put(`${environment.apiUrl}/lzdrugs/${model.id}`,model);
    }
+  getMetaDataForThisDrugCode(code:string){
+     return this.http.get<IDrugMetaData>(`${environment.apiUrl}/lzdrugs/bycode/${code}`);
+  }
 }

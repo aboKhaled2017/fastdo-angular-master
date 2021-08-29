@@ -5,8 +5,15 @@
             <input type="hidden" formControlName="oldName">
         </ng-container>
         
+        <app-input-with-validation [control]="f.code" 
+                                    placeholder="رقم الباركود" 
+                                    [isArabicFont]="true"
+                                    [autofocus]="true"
+                                    [errors]="allErrors.code">
+        </app-input-with-validation>
         <app-input-with-validation [control]="f.name" 
                         placeholder="الاسم"
+                        [appTrackArabicText]="f.name"
                         [errors]="allErrors.name">               
         </app-input-with-validation>
         <app-input-with-validation [control]="f.type" 
@@ -94,6 +101,9 @@
                     </app-form-live-status>
          
                </div>   -->         
+            </div>
+            <div class="col-12 col-md-4 col-lg-6">
+               
             </div>
         </div>
     </div>

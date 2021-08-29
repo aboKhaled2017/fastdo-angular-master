@@ -12,7 +12,7 @@ export interface IDrugRequestModel{
 export class  DrugRequestModel implements IDrugRequestModel{
     constructor(pg?:Partial<IGeneralPagination>,s?:string) {
         if(pg)this.pageNumber=pg.currentPage || 1;
-        if(pg)this.pageSize=pg.pageSize || 1;
+        if(pg)this.pageSize=(pg.pageSize && pg.pageSize>1)?pg.pageSize : 20;
         if(s)this.s=s;
         this.setValues(pg,{s});
     }
@@ -23,7 +23,7 @@ export class  DrugRequestModel implements IDrugRequestModel{
     private setValues(pg:Partial<IGeneralPagination>,props?:{[key:string]:any}){
         if(pg){
             this.pageNumber=pg.currentPage || 1;
-            this.pageSize=pg.pageSize || 1;
+            this.pageSize=(pg.pageSize && pg.pageSize>1)?pg.pageSize : 20;
         }
         Object.entries(props || {}).forEach(e=>{
             this[e[0]]=e[1];

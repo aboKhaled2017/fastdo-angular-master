@@ -12,7 +12,7 @@ export interface IPageRequestModel{
 export class  PageRequestModel implements IPageRequestModel{
     constructor(config?:Partial<{pageNumber:number,pageSize:number}>) {
         this.pageNumber=this.pageNumber || 1;
-        this.pageSize=this.pageSize || 10;
+        this.pageSize=this.pageSize || 20;
         this.setValues(config);
     }
     private setValues(pg:Partial<{pageNumber:number,pageSize:number}>,props?:{[key:string]:any}){
