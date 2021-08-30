@@ -18,7 +18,7 @@ import { DrugsSearchComponent } from '../drugs-search.component';
   styleUrls: ['./drug-search-filters.component.scss']
 })
 export class DrugSearchFiltersComponent extends DrugsSearchComponent {
-
+  isPharmacySelected=false;
   onCodeSearchChange=new Subject<string>();
   subscriptions:Subscription[]=[];
   areas:IAreaModel[]=[];
@@ -106,6 +106,13 @@ export class DrugSearchFiltersComponent extends DrugsSearchComponent {
     this._currentSelectedPharmacies=data;
     let ids=data.length<1?"":data.map(t=>t.key).join(',');
     this.drugSearchService.getWhere({'InPharmasIds':ids});
+    this.isPharmacySelected=this._currentSelectedPharmacies.length>0;
+    if(this._currentSelectedPharmacies.length==1){
+      this.searchService.selectedPharmacy.next({pharmacyId:data[0].key,pharmacyName:data[0].value})
+    }
+    else{
+      this.searchService.selectedPharmacy.next(null)
+    }
   }
   ngOnDestroy(): void {
    this.subscriptions.forEach(e=>e.unsubscribe());

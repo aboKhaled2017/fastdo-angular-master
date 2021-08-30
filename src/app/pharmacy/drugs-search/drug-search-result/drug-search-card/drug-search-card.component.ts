@@ -12,12 +12,17 @@ import { IDrugReqResponseModel } from 'src/app/pharmacy/models/DrugRequestRespon
   styleUrls: ['./drug-search-card.component.scss']
 })
 export class DrugSearchCardComponent  {
-
+  isSelected=false;
   @Input('drug') card:IDrugSearchModel;
   @Input('index') index:number;
   loading:boolean=false;
+  isSpecifiedPharmaSelected=false;
   constructor(private drugSearchService:DrugSearchService,
-              private toastService:ToastService) { }
+              private toastService:ToastService) { 
+                drugSearchService.selectedPharmacy.subscribe(e=>{
+                  this.isSpecifiedPharmaSelected=!!e;
+                })
+              }
   isDetailsShow=false;
   getItemDetails(){
     return [
@@ -52,5 +57,9 @@ export class DrugSearchCardComponent  {
       this.loading=false;
       this.toastService.showError(err.message);
     });
+  }
+  onChange(ev){
+    this.isSelected=!this.isSelected;
+    this.drugSearchService.switchDrugFromSelectedDrugsList(this.card.id);
   }
 }

@@ -1,5 +1,21 @@
 <section id="searchSection mt-4">
     <h3 class="text-primary text-center my-4">صفحة البحث عن الرواكد</h3>
+    <div class="container-fluid mb-3">
+        <div class="row">
+            <div class="col-6">
+                <div class="alert-info p-3">
+                    لاجراء عملية الاستبدال , قم باختيار صيدلية واحدة
+                </div>
+            </div>
+            <div class="col-6" *ngIf="!!selectedPharmacy">
+                <button type="button" (click)="exchange()" title="اجراء الاستبدال"
+                    class="btn btn-primary btn-sm shadow">
+                    <i class="fa fa-exchange text-center"></i>
+                    <span class="px-2">اجراء الاستبدال</span>
+                </button>
+            </div>
+        </div>
+    </div>
     <div class="container-fluid">
         <app-loading-status [loading]="loading"></app-loading-status>
         <div class="row">

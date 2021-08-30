@@ -3,7 +3,6 @@ import { IGeneralPagination } from 'src/app/shared/models/IPagination.model';
 import { PaginatorService } from 'src/app/shared/services/paginator.service';
 import { DrugRequestModel, IDrugRequestModel } from '../drugs/Models/drugRequest.model';
 import { DrugSearchService } from './drug-search.service';
-import { LoaderService } from '../../shared/services/loader-service.service';
 
 @Component({
   selector: 'app-drugs-search',
@@ -12,7 +11,8 @@ import { LoaderService } from '../../shared/services/loader-service.service';
   providers:[DrugSearchService]
 })
 export class DrugsSearchComponent{
- 
+  selectedPharmacy:{ pharmacyId: string; pharmacyName: string;}=null;
+  selectedDrgsToExchange:string[]=[];
   loading:boolean=false;
   pg:IGeneralPagination;
   reqModel:IDrugRequestModel;
@@ -24,6 +24,29 @@ export class DrugsSearchComponent{
       this.pg=_pg;
     });
     this.onRefresh();
+    this.drugSearchService.selectedPharmacy.subscribe(e=>{
+      console.log(e)
+      this.selectedPharmacy=e;
+    });
+    this.drugSearchService.selectedDrugsToExchange.subscribe(e=>{
+      this.selectedDrgsToExchange=e;
+    })
+  }
+   exchange(){
+    if(this.selectedDrgsToExchange.length<1){
+      alert('قم باختيار راكد واحد على الاقل')
+    }
+    else{
+      console.log(this.selectedDrgsToExchange);
+      this.drugSearchService.ExecuteExchange().subscribe(
+        o=>{
+          alert("تم ارسال طلب الاستبدال")
+          this.onRefresh();
+        },
+        error=>{
+     console.log(error)
+      });
+    }
   }
   onPageSelected(page){
     this.drugSearchService.getWhere({pageNumber:page});

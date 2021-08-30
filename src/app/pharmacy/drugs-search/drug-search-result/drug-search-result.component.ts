@@ -21,5 +21,7 @@ export class DrugSearchResultComponent {
       unitType:DrugUtility.getUnitType(e.unitType) as any
     }));
   }
+
+ 
   
 }
