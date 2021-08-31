@@ -15,6 +15,8 @@ export class DrugsComponent implements OnInit {
       {id:2,iconClass:'fa-th-list',link:'/pharmacy/mydrugs/list',text:'عرض الرواكد'},
       {id:3,iconClass:'fa-th-list',link:'/pharmacy/mydrugs/we-requested',text:'رواكد قمنا بطلبها'},
       {id:4,iconClass:'fa-th-list',link:'/pharmacy/mydrugs/we-recieved',text:'طلبات ارسلت الينا'},
+      {id:5,iconClass:'fa-th-list',link:'/pharmacy/mydrugs/exh-we-recieved',text:'طلبات استبدال ارسلت الينا'},
+      {id:6,iconClass:'fa-th-list',link:'/pharmacy/mydrugs/exh-we-requested',text:'طلبات استبدال قمنا بها'},
     ];
     this.drugsService.updateTabe.subscribe(data=>{
       let tabInd=this.tabs.findIndex(e=>e.id==data.id);

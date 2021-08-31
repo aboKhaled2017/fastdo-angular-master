@@ -17,6 +17,8 @@ import { DrugPackageStatusComponent } from './drugs-show-list/drug-item-details/
 import { DrugGuard } from 'src/app/shared/helpers/Guards/drugs.guard';
 import { DrugsBaseComponent } from './base.component';
 import { DrugsReqsWeReceivedCardComponent } from './drugs-reqs-list-we-recieved/drugs-reqs-we-received-card/drugs-reqs-we-received-card.component';
+import { DrugsExchWeReceivedComponent } from './drugs-exch-we-received/drugs-exch-we-received.component';
+import { DrugsExchWeRequestedComponent } from './drugs-exch-we-requested/drugs-exch-we-requested.component';
 
 
 
@@ -25,7 +27,7 @@ import { DrugsReqsWeReceivedCardComponent } from './drugs-reqs-list-we-recieved/
     DrugsShowListComponent, DrugsListWeRequestedComponent, 
     DrugsReqsListWeRecievedComponent, DrugItemDetailsComponent,
      DrugTableDetailsComponent, DrugToPackageComponent, 
-     DrugPackageStatusComponent,DrugsBaseComponent, DrugsReqsWeReceivedCardComponent],
+     DrugPackageStatusComponent,DrugsBaseComponent, DrugsReqsWeReceivedCardComponent, DrugsExchWeReceivedComponent, DrugsExchWeRequestedComponent],
   imports: [
     CommonModule,
     DrugsRoutingModule,

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
+import { IErrorModel } from 'src/app/shared/models/Error.model';
 import { IGeneralPagination } from 'src/app/shared/models/IPagination.model';
 import { PaginatorService } from 'src/app/shared/services/paginator.service';
+import { ToastService } from 'src/app/shared/services/toast.service.';
 import { DrugRequestModel, IDrugRequestModel } from '../drugs/Models/drugRequest.model';
 import { DrugSearchService } from './drug-search.service';
 
@@ -17,7 +19,8 @@ export class DrugsSearchComponent{
   pg:IGeneralPagination;
   reqModel:IDrugRequestModel;
   constructor(public drugSearchService:DrugSearchService,
-              public paginatorService:PaginatorService) { 
+              public paginatorService:PaginatorService,
+              public toastService:ToastService) { 
     this.reqModel=new DrugRequestModel(this.pg);
     drugSearchService.loading.subscribe(v=>this.loading=v);
     this.paginatorService.paginator.subscribe(_pg=>{
@@ -43,8 +46,8 @@ export class DrugsSearchComponent{
           alert("تم ارسال طلب الاستبدال")
           this.onRefresh();
         },
-        error=>{
-     console.log(error)
+        (error:IErrorModel)=>{
+        this.toastService.showError(error.message)
       });
     }
   }

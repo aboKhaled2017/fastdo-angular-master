@@ -66,5 +66,27 @@ export class DrugsService {
   deleteRequest(id:string){
     return this.http.delete<void>(`${environment.apiUrl}/phrdrgrequests/made/${id}`);
   }
+
+  getReceivedExchangedDrugs(req:IDrugRequestModel){
+     return this.http
+    .get<any>(`${environment.apiUrl}/LzDrugExchangeRequest/Received?pageNumber=1&pageSize=10`)
+  }
+  getRequestedExchangedDrugs(req:IDrugRequestModel){
+     return this.http
+    .get<any>(`${environment.apiUrl}/LzDrugExchangeRequest?pageNumber=1&pageSize=10`)
+  }
+  getExchReceivedDetails(id:string){
+     return this.http
+    .get<any>(`${environment.apiUrl}/LzDrugExchangeRequest/${id}`)
+  }
+  updateExchDrugReq(reqId,dId,status){
+     return this.http
+    .put(`${environment.apiUrl}/LzDrugExchangeRequest/(UpdateDrugStatusInRequestIReceived)/${reqId}`,{requestId:reqId,drugId:dId,drugeStatus:status})
+  }
+  rejectDrugReqFromReceiver(rid,ids){
+    console.log(ids)
+    return this.http
+    .put(`${environment.apiUrl}/LzDrugExchangeRequest/${rid}`,{id:rid,lzDrugsIds:ids})
+  }
 }
 

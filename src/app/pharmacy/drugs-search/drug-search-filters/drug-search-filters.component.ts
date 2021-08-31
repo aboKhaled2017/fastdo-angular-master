@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { DataStorageService } from 'src/app/shared/services/data-storage.service';
 import { LoaderService } from 'src/app/shared/services/loader-service.service';
 import { PaginatorService } from 'src/app/shared/services/paginator.service';
+import { ToastService } from 'src/app/shared/services/toast.service.';
 import { IPharmacyShortDataModel } from '../../models/IPharmacyShortData.model';
 import { DrugSearchService } from '../drug-search.service';
 import { DrugsSearchComponent } from '../drugs-search.component';
@@ -31,9 +32,10 @@ export class DrugSearchFiltersComponent extends DrugsSearchComponent {
   private _currentSelectedPharmacies:ISearchMenuInputSelectData[]=[];
   constructor(private dataService:DataStorageService,
               private searchService:DrugSearchService,
+                 public toastService:ToastService,
               public paginatorService:PaginatorService,
               private authService:AuthService) {
-                super(searchService,paginatorService); 
+                super(searchService,paginatorService,toastService); 
           this.subscriptions.push(dataService.getAllAreas().subscribe(data=>{
             this.areas=data;
             this.cities=this.getCities(this.areas);

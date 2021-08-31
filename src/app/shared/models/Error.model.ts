@@ -26,8 +26,9 @@ export class ErrorModel implements IErrorModel{
             // Client-side errors
             this.status=ErrorStatus.frontError;
             this.message = `Error: ${errorRes.error.message}`;
-          } else {
-            // Server-side errors
+          } 
+          else {
+                        // Server-side errors
             if(errorRes.status==400){
                 this.status=ErrorStatus.badRequestError;
                 if(errorRes.error.errors)
@@ -52,7 +53,7 @@ export class ErrorModel implements IErrorModel{
             }
             else {
                 this.status=ErrorStatus.serverError;
-                this.message=this._noMessage;
+                this.message=(errorRes.error['errors']&& errorRes.error['errors']['G'])?errorRes.error['errors']['G'] : this._noMessage;
             }
           }
         
