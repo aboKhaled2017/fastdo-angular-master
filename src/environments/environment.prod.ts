@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl:"http://backend.fastdo.co/api",
-  techSupportChatHubUrl:"http://backend.fastdo.co/hub/techsupport",
+  apiUrl:"https://ahmedfadel-001-site1.atempurl.com/api",
+  techSupportChatHubUrl:"https://ahmedfadel-001-site1.atempurl.com/hub/techsupport",
 };
